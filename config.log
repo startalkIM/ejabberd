@@ -29,30 +29,9 @@ uname -v = #1 SMP Fri Oct 18 17:15:30 UTC 2019
 
 PATH: /usr/local/bin
 PATH: /usr/bin
+PATH: /home/0x00/bin
 PATH: /usr/local/sbin
 PATH: /usr/sbin
-PATH: /home/0x00/.local/bin
-PATH: /home/0x00/bin
-PATH: /home/0x00/.local/bin
-PATH: /home/0x00/bin
-PATH: /root/workspace/software/apache-maven-3.6.2/bin
-PATH: /home/0x00/.local/bin
-PATH: /home/0x00/bin
-PATH: /home/0x00/opt/apache-maven-3.6.2/bin
-PATH: /home/0x00/.local/bin
-PATH: /home/0x00/bin
-PATH: /home/0x00/opt/apache-maven-3.6.2/bin
-PATH: /home/0x00/.local/bin
-PATH: /home/0x00/bin
-PATH: /home/0x00/opt/apache-maven-3.6.2/bin
-PATH: /home/0x00/.local/bin
-PATH: /home/0x00/bin
-PATH: /home/0x00/opt/apache-maven-3.6.2/bin
-PATH: /home/0x00/.local/bin
-PATH: /home/0x00/bin
-PATH: /home/0x00/opt/apache-maven-3.6.2/bin
-PATH: /home/0x00/bin
-PATH: /home/0x00/bin
 
 
 ## ----------- ##
