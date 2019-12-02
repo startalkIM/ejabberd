@@ -1,0 +1,37 @@
+# event说明
+
+<table>
+        <tr>
+            <th>事件</th><th>category</th><th>data</th>
+        </tr>
+        <tr>
+            <th>更新组织架构</th><th>"1"</th><th>""</th>
+        </tr>
+        <tr>
+            <th>会话同步</th><th>"2"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>下发导航版本</th><th>"3"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>下发个人配置</th><th>"6"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>下发消息</th><th>"7"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>下发日历更新</th><th>"8"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>下发客户端在线</th><th>"9"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>收集日志</th><th>"10"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>日志发送回执</th><th>"11"</th><th>参考客户端文档</th>
+        </tr>
+        <tr>
+            <th>踢客户端下线</th><th>"100"</th><th>参考客户端文档</th>
+        </tr>
+</table>

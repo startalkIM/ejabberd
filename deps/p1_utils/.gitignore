@@ -1,0 +1,12 @@
+rebar
+ebin/
+.eunit
+_build
+.rebar/
+
+*.eqc
+.eqc-info
+
+rebar3
+
+doc/edoc-info

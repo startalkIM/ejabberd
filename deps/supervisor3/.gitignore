@@ -1,0 +1,10 @@
+*~
+.sw?
+.*.sw?
+*.beam
+*.d
+/.erlang.mk/
+/doc/
+/ebin/
+.rebar/
+_build

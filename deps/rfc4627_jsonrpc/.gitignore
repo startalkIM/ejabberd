@@ -1,0 +1,5 @@
+*.beam
+test/server_root/logs/*_log
+build
+dist
+doc

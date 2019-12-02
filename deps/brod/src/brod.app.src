@@ -1,0 +1,16 @@
+%% -*- mode:erlang -*-
+{application,brod,
+ [{description,"Apache Kafka Erlang client library"},
+  {vsn,"3.1.0"},
+  {registered,[]},
+  {applications,[kernel,stdlib,sasl,ssl,kafka_protocol,supervisor3]},
+  {env,[]},
+  {mod, {brod, []}},
+  {modules,[]},
+  {maintainers, ["Ivan Dyachkov", "Zaiming Shi"]},
+  {licenses, ["Apache License 2.0"]},
+  {links, [{"Github", "https://github.com/klarna/brod"}]},
+  {build_tools, ["make", "rebar", "rebar3"]},
+  {files, ["src", "include", "scripts", "docker", "rebar.config",
+           "rebar.config.script","README.md","LICENSE", "NOTICE",
+           "AUTHORS", "Makefile", "erlang.mk", "sys.config.example"]}]}.

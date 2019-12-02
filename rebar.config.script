@@ -1,0 +1,177 @@
+%%%-------------------------------------------------------------------
+%%% @author Evgeniy Khramtsov <ekhramtsov@process-one.net>
+%%% @copyright (C) 2013-2016, Evgeniy Khramtsov
+%%% @doc
+%%%
+%%% @end
+%%% Created :  1 May 2013 by Evgeniy Khramtsov <ekhramtsov@process-one.net>
+%%%-------------------------------------------------------------------
+
+ModCfg0 = fun(F, Cfg, [Key|Tail], Op, Default) ->
+                 {OldVal,PartCfg} = case lists:keytake(Key, 1, Cfg) of
+                                        {value, {_, V1}, V2} -> {V1, V2};
+                                        false -> {if Tail == [] -> Default; true -> [] end, Cfg}
+                                    end,
+                 case Tail of
+                     [] ->
+                         [{Key, Op(OldVal)} | PartCfg];
+                     _ ->
+                         [{Key, F(F, OldVal, Tail, Op, Default)} | PartCfg]
+                 end
+         end,
+ModCfg = fun(Cfg, Keys, Op, Default) -> ModCfg0(ModCfg0, Cfg, Keys, Op, Default) end,
+
+Cfg = case file:consult(filename:join(filename:dirname(SCRIPT), "vars.config")) of
+          {ok, Terms} ->
+              Terms;
+          _Err ->
+              []
+      end,
+
+ProcessSingleVar = fun(F, Var, Tail) ->
+			   case F(F, [Var], []) of
+			       [] -> Tail;
+			       [Val] -> [Val | Tail]
+			   end
+		   end,
+
+ProcessVars = fun(_F, [], Acc) ->
+                      lists:reverse(Acc);
+                 (F, [{Type, Ver, Value} | Tail], Acc) when
+                        Type == if_version_above orelse
+                        Type == if_version_below ->
+		      SysVer = erlang:system_info(otp_release),
+		      Include = if Type == if_version_above ->
+					SysVer > Ver;
+				   true ->
+					SysVer < Ver
+				end,
+		      if Include ->
+                              F(F, Tail, ProcessSingleVar(F, Value, Acc));
+			 true ->
+                              F(F, Tail, Acc)
+		      end;
+                 (F, [{Type, Ver, Value, ElseValue} | Tail], Acc) when
+                        Type == if_version_above orelse
+                        Type == if_version_below ->
+		      SysVer = erlang:system_info(otp_release),
+		      Include = if Type == if_version_above ->
+					SysVer > Ver;
+				   true ->
+					SysVer < Ver
+				end,
+		      if Include ->
+                              F(F, Tail, ProcessSingleVar(F, Value, Acc));
+			 true ->
+                              F(F, Tail, ProcessSingleVar(F, ElseValue, Acc))
+		      end;
+                 (F, [{Type, Var, Value} | Tail], Acc) when
+                        Type == if_var_true orelse
+                        Type == if_var_false ->
+                      Flag = Type == if_var_true,
+                      case proplists:get_bool(Var, Cfg) of
+                          V when V == Flag ->
+                              F(F, Tail, ProcessSingleVar(F, Value, Acc));
+                          _ ->
+                              F(F, Tail, Acc)
+                      end;
+                 (F, [{Type, Var, Match, Value} | Tail], Acc) when
+                        Type == if_var_match orelse
+                        Type == if_var_no_match ->
+                      case proplists:get_value(Var, Cfg) of
+                          V when V == Match ->
+                              F(F, Tail, ProcessSingleVar(F, Value, Acc));
+                          _ ->
+                              F(F, Tail, Acc)
+                      end;
+                 (F, [Other1 | Tail1], Acc) ->
+                      F(F, Tail1, [F(F, Other1, []) | Acc]);
+                 (F, Val, Acc) when is_tuple(Val) ->
+                      list_to_tuple(F(F, tuple_to_list(Val), Acc));
+                 (_F, Other2, _Acc) ->
+                      Other2
+              end,
+
+CFLags = proplists:get_value(cflags, Cfg, ""),
+CPPFLags = proplists:get_value(cppflags, Cfg, ""),
+LDFLags = proplists:get_value(ldflags, Cfg, ""),
+
+ConfigureCmd = fun(Pkg, Flags) ->
+                       {'get-deps',
+                        "sh -c 'cd deps/" ++ Pkg ++
+                            " && CFLAGS=\""++ CFLags ++"\" CPPFLAGS=\""++ CPPFLags ++"\" LDFLAGS=\""++ LDFLags ++"\"" ++
+                            " ./configure " ++ Flags ++ "'"}
+               end,
+
+Conf = ProcessVars(ProcessVars, CONFIG, []),
+
+Conf1 = case lists:keytake(post_hook_configure, 1, Conf) of
+            {value, {_, Items}, Rest} ->
+                [{post_hooks, [ConfigureCmd(Mod, string:join(Opts, " ")) || {Mod, Opts} <- Items]} | Rest];
+            _ ->
+                Conf
+        end,
+
+{ok, Cwd} = file:get_cwd(),
+TestConfigFile = filename:join([Cwd, "test", "config.ctc"]),
+TestConfig = case file:read_file_info(TestConfigFile) of
+                 {ok, _} ->
+                     "-userconfig ct_config_plain " ++ TestConfigFile ++ " ";
+                 _ ->
+                     ""
+             end,
+
+Conf2 = [{ct_extra_params, "-ct_hooks cth_surefire "
+         ++ TestConfig
+         ++ "-include "
+         ++ filename:join([Cwd, "tools"])} | Conf1],
+
+Conf3 = case lists:keytake(xref_exclusions, 1, Conf2) of
+            {value, {_, Items2}, Rest2} ->
+                [{xref_queries, [{lists:flatten(["(XC - UC) || (XU - X - B ",
+                                                 [[" - ", V] || V <- Items2], ")"]), []}]} | Rest2];
+            _ ->
+                Conf2
+        end,
+
+Conf5 = case lists:keytake(floating_deps, 1, Conf3) of
+            {value, {_, FloatingDeps}, Rest4} ->
+                case lists:keytake(deps, 1, Rest4) of
+                    {value, {_, Deps}, Rest41} ->
+                        ND = lists:map(fun({DepName, Ver, {git, Repo, _Commit}}=Dep) ->
+                                               case lists:member(DepName, FloatingDeps) of
+                                                   true ->
+                                                       {DepName, ".*", {git, Repo}};
+                                                   _ ->
+                                                       Dep
+                                               end;
+                                          (Dep2) ->
+                                               Dep2
+                                       end, Deps),
+                        [{deps, ND} | Rest41];
+                    _ ->
+                        Rest4
+                end;
+            _ ->
+                Conf3
+        end,
+
+%% When running Travis test, upload test coverage result to coveralls:
+Conf6 = case {lists:keyfind(cover_enabled, 1, Conf5), os:getenv("TRAVIS")} of
+            {{cover_enabled, true}, "true"} ->
+                JobId = os:getenv("TRAVIS_JOB_ID"),
+                CfgTemp = ModCfg(Conf5, [deps], fun(V) -> [{coveralls, ".*", {git, "https://github.com/markusn/coveralls-erl.git", "master"}}|V] end, []),
+                ModCfg(CfgTemp, [post_hooks], fun(V) -> V ++ [{ct, "echo '\n%%! -pa ebin/ deps/coveralls/ebin\nmain(_)->{ok,F}=file:open(\"erlang.json\",[write]),io:fwrite(F,\"~s\",[coveralls:convert_file(\"logs/all.coverdata\", \""++JobId++"\", \"travis-ci\")]).' > getcover.erl"},
+                                                              {ct, "escript ./getcover.erl"}] end, []);
+            _ ->
+                Conf5
+        end,
+
+%io:format("ejabberd configuration:~n  ~p~n", [Conf6]),
+
+Conf6.
+
+%% Local Variables:
+%% mode: erlang
+%% End:
+%% vim: set filetype=erlang tabstop=8:

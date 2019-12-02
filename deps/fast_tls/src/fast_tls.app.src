@@ -1,0 +1,42 @@
+%%%----------------------------------------------------------------------
+%%% File    : fast_tls.app.src
+%%% Author  : Evgeniy Khramtsov <ekhramtsov@process-one.net>
+%%% Purpose : Application package description
+%%% Created : 4 Apr 2013 by Evgeniy Khramtsov <ekhramtsov@process-one.net>
+%%%
+%%%
+%%% Copyright (C) 2002-2016 ProcessOne, SARL. All Rights Reserved.
+%%%
+%%% Licensed under the Apache License, Version 2.0 (the "License");
+%%% you may not use this file except in compliance with the License.
+%%% You may obtain a copy of the License at
+%%%
+%%%     http://www.apache.org/licenses/LICENSE-2.0
+%%%
+%%% Unless required by applicable law or agreed to in writing, software
+%%% distributed under the License is distributed on an "AS IS" BASIS,
+%%% WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+%%% See the License for the specific language governing permissions and
+%%% limitations under the License.
+%%%
+%%%----------------------------------------------------------------------
+
+{application, fast_tls,
+ [{description,  "TLS / SSL OpenSSL-based native driver for Erlang / Elixir"},
+  {vsn,          "1.0.7"},
+  {modules,      []},
+  {registered,   []},
+  {applications, [kernel, stdlib]},
+  {mod,          {fast_tls_app,[]}},
+
+  
+  %% hex.pm packaging:
+  {files, ["src/", "c_src/fast_tls_drv.c", "c_src/p1_sha.c", "c_src/options.h", "c_src/stdint.h", "rebar.config", "rebar.config.script", "README.md", "LICENSE.txt"]},
+  {licenses, ["Apache 2.0"]},
+  {maintainers, ["ProcessOne"]},
+  {links, [{"Github", "https://github.com/processone/fast_tls"}]}]}.
+
+%% Local Variables:
+%% mode: erlang
+%% End:
+%% vim: set filetype=erlang tabstop=8:

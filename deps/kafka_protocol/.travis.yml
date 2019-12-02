@@ -1,0 +1,29 @@
+language: erlang
+
+sudo: required
+
+before_install:
+  - git clone https://github.com/erlang/rebar3.git
+  - pushd .
+  - cd rebar3
+  - ./bootstrap
+  - sudo mv rebar3 /usr/local/bin/
+  - popd
+
+notifications:
+  email: false
+
+otp_release:
+  - 18.2.1
+  - 17.5
+
+script:
+  - make
+  - make xref
+  - make edoc
+  - make dialyze
+# test rebar
+  - make distclean
+  - rebar get-deps
+  - rebar compile
+

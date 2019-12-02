@@ -1,0 +1,15 @@
+@author ProcessOne [http://www.process-one.net]
+@copyright 2002-2019 ProcessOne
+@version 1.0.0
+@title P1 Erlang Utils
+@doc
+This is a set of Erlang utilities used in other ProcessOne projects.
+
+p1_utils is an application containing ProcessOne modules and tools that are leveraged in other development projects:
+
+<ul>
+<li><code>p1_fsm</code> and <code>p1_server</code> are drop-in replacements of Erlang gen_fsm and gen_server, offering extra option for better 
+  reliability in production. They support mostly priority messages and message queue length controls.</li>
+<li><code>p1_nif_utils</code> is an helper utilities for handling NIF code.</li>
+<li><code>treap</code> is a treap algorithm implementation. It is a randomized binary search tree. See: <a href="https://en.wikipedia.org/wiki/Treap">Treap on Wikipedia</a></li>
+</ul>

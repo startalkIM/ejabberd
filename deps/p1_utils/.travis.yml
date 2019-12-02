@@ -1,0 +1,13 @@
+sudo: false
+
+language: erlang
+
+install:
+  - rebar get-deps
+
+script: rebar compile && rebar skip_deps=true eunit
+
+otp_release:
+  - 17.1
+  - 17.5
+  - 18.1

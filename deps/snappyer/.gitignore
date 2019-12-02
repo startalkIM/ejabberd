@@ -1,0 +1,11 @@
+env.mk
+*.o
+ebin/
+*.d
+*.so
+*.beam
+.rebar
+.deps
+*.crashdump
+_build/
+rebar.lock

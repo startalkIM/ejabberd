@@ -1,0 +1,15 @@
+*.bak
+*.plt
+*.d
+/ebin
+xrefr
+doc/
+logs/
+.erlang.mk/
+deps/
+_build
+erl_crash.dump
+*.crashdump
+.rebar/
+rebar.lock
+.gradle/

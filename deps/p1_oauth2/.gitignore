@@ -1,0 +1,6 @@
+ebin
+.eunit
+deps
+.rebar
+*.plt
+_build/

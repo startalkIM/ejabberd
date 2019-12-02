@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Module p1_fsm</title>
+<link rel="stylesheet" type="text/css" href="style.css" title="EDoc">
+</head>
+<body bgcolor="white" class="mainpane">
+<div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.process-one.net" target="_top"><img src="logo_p1.png" align="right" border="0" alt="Logo"></a></td></tr></table></div>
+<hr>
+
+<h1>Module p1_fsm</h1>
+<ul class="index"><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>
+
+<p><b>This module defines the <tt>p1_fsm</tt> behaviour.</b><br> Required callback functions: <tt>init/1</tt>, <tt>handle_event/3</tt>, <tt>handle_sync_event/4</tt>, <tt>handle_info/3</tt>, <tt>terminate/3</tt>, <tt>code_change/4</tt>.</p>
+
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="0" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#cancel_timer-1">cancel_timer/1</a></td><td></td></tr>
+<tr><td valign="top"><a href="#enter_loop-4">enter_loop/4</a></td><td></td></tr>
+<tr><td valign="top"><a href="#enter_loop-5">enter_loop/5</a></td><td></td></tr>
+<tr><td valign="top"><a href="#enter_loop-6">enter_loop/6</a></td><td></td></tr>
+<tr><td valign="top"><a href="#format_status-2">format_status/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#init_it-6">init_it/6</a></td><td></td></tr>
+<tr><td valign="top"><a href="#print_event-3">print_event/3</a></td><td></td></tr>
+<tr><td valign="top"><a href="#reply-2">reply/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#send_all_state_event-2">send_all_state_event/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#send_event-2">send_event/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#send_event_after-2">send_event_after/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#start-3">start/3</a></td><td></td></tr>
+<tr><td valign="top"><a href="#start-4">start/4</a></td><td></td></tr>
+<tr><td valign="top"><a href="#start_link-3">start_link/3</a></td><td></td></tr>
+<tr><td valign="top"><a href="#start_link-4">start_link/4</a></td><td></td></tr>
+<tr><td valign="top"><a href="#start_timer-2">start_timer/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#sync_send_all_state_event-2">sync_send_all_state_event/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#sync_send_all_state_event-3">sync_send_all_state_event/3</a></td><td></td></tr>
+<tr><td valign="top"><a href="#sync_send_event-2">sync_send_event/2</a></td><td></td></tr>
+<tr><td valign="top"><a href="#sync_send_event-3">sync_send_event/3</a></td><td></td></tr>
+<tr><td valign="top"><a href="#system_code_change-4">system_code_change/4</a></td><td></td></tr>
+<tr><td valign="top"><a href="#system_continue-3">system_continue/3</a></td><td></td></tr>
+<tr><td valign="top"><a href="#system_terminate-4">system_terminate/4</a></td><td></td></tr>
+<tr><td valign="top"><a href="#wake_hib-7">wake_hib/7</a></td><td></td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="cancel_timer-1">cancel_timer/1</a></h3>
+<div class="spec">
+<p><tt>cancel_timer(Ref) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="enter_loop-4">enter_loop/4</a></h3>
+<div class="spec">
+<p><tt>enter_loop(Mod, Options, StateName, StateData) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="enter_loop-5">enter_loop/5</a></h3>
+<div class="spec">
+<p><tt>enter_loop(Mod, Options, StateName, StateData, ServerName) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="enter_loop-6">enter_loop/6</a></h3>
+<div class="spec">
+<p><tt>enter_loop(Mod, Options, StateName, StateData, ServerName, Timeout) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="format_status-2">format_status/2</a></h3>
+<div class="spec">
+<p><tt>format_status(Opt, StatusData) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="init_it-6">init_it/6</a></h3>
+<div class="spec">
+<p><tt>init_it(Starter, Parent, Name, Mod, Args, Options) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="print_event-3">print_event/3</a></h3>
+<div class="spec">
+<p><tt>print_event(Dev, X2, Name) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="reply-2">reply/2</a></h3>
+<div class="spec">
+<p><tt>reply(X1, Reply) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="send_all_state_event-2">send_all_state_event/2</a></h3>
+<div class="spec">
+<p><tt>send_all_state_event(Name, Event) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="send_event-2">send_event/2</a></h3>
+<div class="spec">
+<p><tt>send_event(Name, Event) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="send_event_after-2">send_event_after/2</a></h3>
+<div class="spec">
+<p><tt>send_event_after(Time, Event) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="start-3">start/3</a></h3>
+<div class="spec">
+<p><tt>start(Mod, Args, Options) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="start-4">start/4</a></h3>
+<div class="spec">
+<p><tt>start(Name, Mod, Args, Options) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="start_link-3">start_link/3</a></h3>
+<div class="spec">
+<p><tt>start_link(Mod, Args, Options) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="start_link-4">start_link/4</a></h3>
+<div class="spec">
+<p><tt>start_link(Name, Mod, Args, Options) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="start_timer-2">start_timer/2</a></h3>
+<div class="spec">
+<p><tt>start_timer(Time, Msg) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="sync_send_all_state_event-2">sync_send_all_state_event/2</a></h3>
+<div class="spec">
+<p><tt>sync_send_all_state_event(Name, Event) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="sync_send_all_state_event-3">sync_send_all_state_event/3</a></h3>
+<div class="spec">
+<p><tt>sync_send_all_state_event(Name, Event, Timeout) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="sync_send_event-2">sync_send_event/2</a></h3>
+<div class="spec">
+<p><tt>sync_send_event(Name, Event) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="sync_send_event-3">sync_send_event/3</a></h3>
+<div class="spec">
+<p><tt>sync_send_event(Name, Event, Timeout) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="system_code_change-4">system_code_change/4</a></h3>
+<div class="spec">
+<p><tt>system_code_change(X1, Module, OldVsn, Extra) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="system_continue-3">system_continue/3</a></h3>
+<div class="spec">
+<p><tt>system_continue(Parent, Debug, X3) -&gt; any()</tt></p>
+</div>
+
+<h3 class="function"><a name="system_terminate-4">system_terminate/4</a></h3>
+<div class="spec">
+<p><tt>system_terminate(Reason::term(), Parent::term(), Debug::term(), X4::[term(), ...]) -&gt; no_return()</tt><br></p>
+</div>
+
+<h3 class="function"><a name="wake_hib-7">wake_hib/7</a></h3>
+<div class="spec">
+<p><tt>wake_hib(Parent, Name, StateName, StateData, Mod, Debug, Limits) -&gt; any()</tt></p>
+</div>
+<hr>
+
+<div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.process-one.net" target="_top"><img src="logo_p1.png" align="right" border="0" alt="Logo"></a></td></tr></table></div>
+<p><i>Generated by EDoc, Dec 17 2015, 23:20:00.</i></p>
+</body>
+</html>

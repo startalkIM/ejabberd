@@ -1,0 +1,24 @@
+[Unit]
+Description=XMPP Server
+After=network.target
+
+[Service]
+User=ejabberd
+Group=ejabberd
+LimitNOFILE=16000
+RestartSec=5
+ExecStart=@ctlscriptpath@/ejabberdctl start
+ExecStop=@ctlscriptpath@/ejabberdctl stop
+ExecReload=@ctlscriptpath@/ejabberdctl reload_config
+Type=oneshot
+RemainAfterExit=yes
+# The CAP_DAC_OVERRIDE capability is required for pam authentication to work
+CapabilityBoundingSet=CAP_DAC_OVERRIDE
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=full
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

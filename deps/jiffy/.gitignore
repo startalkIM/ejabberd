@@ -1,0 +1,10 @@
+.eunit
+.jiffy.dev
+*.app
+*.beam
+*.o
+*.so
+deps
+erln8.config
+hexer.config
+TEST-*.xml
