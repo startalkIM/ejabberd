@@ -32,7 +32,7 @@ check_packet(_, _User, _Server, _UserList,
         deny -> deny;
         R ->
             case ejabberd_config:get_option(message_permissions, fun(Url)-> Url end, undefined) of
-                true -> do_check_priv(From, To);
+                true -> do_check_priv(From, To, Type);
                 _ -> R
             end
     end;
@@ -49,11 +49,12 @@ do_check_packet(FromStr, ToStr, _) ->
         _ -> deny 
     end.
 
-do_check_priv(From, To) ->
+do_check_priv(From, To, <<"chat">>) ->
     case catch  ejabberd_sql:sql_query([<<"select relationship from user_friends where username='">>, From#jid.luser, <<"' and userhost='">>, From#jid.lserver, <<"' and friend ='">>, To#jid.luser, <<"' and host='">>, To#jid.lserver, <<"';">>]) of
         {selected, _, [[<<"1">>]]} -> allow;
         _ -> deny
-    end.
+    end;
+do_check_priv(_, _, _) -> allow.
 
 depends(_Host, _Opts) ->
     [].
