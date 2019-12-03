@@ -51,7 +51,7 @@ do_check_packet(FromStr, ToStr, _) ->
 
 do_check_priv(From, To) ->
     case catch  ejabberd_sql:sql_query([<<"select relationship from user_friends where username='">>, From#jid.luser, <<"' and userhost='">>, From#jid.lserver, <<"' and friend ='">>, To#jid.luser, <<"' and host='">>, To#jid.lserver, <<"';">>]) of
-        {select, _, [[<<"1">>]]} -> allow;
+        {selected, _, [[<<"1">>]]} -> allow;
         _ -> deny
     end.
 
