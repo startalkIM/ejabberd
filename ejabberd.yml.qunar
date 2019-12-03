@@ -650,6 +650,7 @@ modules:
 allow_contrib_modules: true
 default_host: "qtalk"
 default_domain: "conference.qtalk"
+message_permissions: false
 
 push_url:
   - "http://127.0.0.1:8083/push_service/qtapi/token/sendMessageToPush.qunar"
