@@ -67,7 +67,7 @@ openresty服务：8080
 im_http_service服务：8005 8009 8081
 qfproxy服务：8006 8010 8082
 push_service服务：8007 8011 8083
-qtalk_search服务：8888
+qtalk_search服务：8884
 
 im服务： 5202 10050 5280
 
