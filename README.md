@@ -374,12 +374,12 @@ tcp6       0      0 127.0.0.1:8006          :::*                    LISTEN      
 ### 安装后端搜索服务
 ```
 安装python3 (3以上都可以，以3.6为标准)
-$ cd /startalk/download/qtalk_search
+$ cd /startalk/download/search
 $ sudo yum install https://centos7.iuscommunity.org/ius-release.rpm
 $ sudo yum install python36u
 安装pip3
 $ sudo yum -y install python-pip
-所需模块见/startalk/download/qtalk_search/requirements.txt, 建议使用virtualenv部署模块所需环境 (如不使用将系统级安装python3.6, 容易引起和大多数centos自带python2.7的冲突, 同时也需要自行安装python3的pip, 并指定pip3安装所需模块):
+所需模块见/startalk/download/search/requirements.txt, 建议使用virtualenv部署模块所需环境 (如不使用将系统级安装python3.6, 容易引起和大多数centos自带python2.7的冲突, 同时也需要自行安装python3的pip, 并指定pip3安装所需模块):
 $ sudo pip install -U virtualenv （安装virtualenv）
 $ sudo pip install --upgrade pip
 $ virtualenv --system-site-packages -p python3.6 ./venv （在当前目录下创建venv环境）
@@ -390,7 +390,7 @@ $ sudo vim ./conf/configure.ini
 安装项目所需模块(如未安装virtualenv, 需sudo yum install python36u-pip, 并使用sudo pip3.6代替命令中默认的pip)
 $ pip install -r requirements.txt
 设置PYTHONPATH
-$ export PYTHONPATH=path/to/project/qtalk_search:$PYTHONPATH
+$ export PYTHONPATH=path/to/project/search:$PYTHONPATH
 后台启动
 $ supervisord -c conf/supervisor.conf
 $ supervisorctl -c conf/supervisor.conf reload
