@@ -111,6 +111,17 @@ route_subdomains: s2s
 ## by and what options to start it with.
 ##
 listen: 
+  - 
+    port: 5222
+    module: ejabberd_c2s
+    certfile: "/startalk/ejabberd/etc/ejabberd/server.pem"
+    starttls: true
+    zlib: false
+    max_stanza_size: 365536
+    shaper: c2s_shaper
+    access: c2s
+    backlog: 2000
+    accept_interval: 3
   -
     port: 5202
     certfile: "/startalk/ejabberd/etc/ejabberd/server.pem"
