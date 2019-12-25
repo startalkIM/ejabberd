@@ -449,6 +449,6 @@ $ tail -100f log/access.log
 
 ## 问题反馈
 
-- qchat@qunar.com（邮件）
+- app@startalk.im（邮件）
 - 852987381（QQ群）
 - QQ群二维码 ![qq](image/qq.png)
