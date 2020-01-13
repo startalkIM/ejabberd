@@ -80,7 +80,10 @@ do_check_host_user_auth(_Host, User, {anony, [Plat, UUID, Token, Password]}) ->
             ?ERROR_MSG("check anonymous unvalid fail for client ~p:~p~n", [User, {Plat, UUID, Token, Password}]),
             catch monitor_util:monitor_count(<<"login_fail_client_anonymous_token_unvalid">>, 1),
             {false, "out_of_date"}
-    end.
+    end;
+do_check_host_user_auth(_Host, User, {'no-surport', Password}) ->
+    ?ERROR_MSG("got a no sourport login password: ~p~n", [{User, Password}]),
+    {false, "no_surport"}.
 
 user_type(Password) ->
     case rfc4627:decode(Password) of
@@ -91,7 +94,7 @@ user_type(Password) ->
             {anony, [Plat, UUID, Token, Password]};
 	{ok, {obj, [{"nauth", {obj, List}}]}, []} -> {nauth, List};
         _ ->
-            {nauth, Password}
+            {'no-surport', Password}
     end.
 
 do_check_host_user(<<"CRY:", _>>, _, null) -> false;
