@@ -43,7 +43,11 @@ create_muc(Server,Args) ->
             To_owner ->
                 Owner = jlib:make_jid(Muc_Towner,Host,<<"">>),
                 catch ejabberd_router:route(Owner,To_owner, Packet),
-    	        qtalk_sql:insert_muc_vcard_info(Server,qtalk_public:concat(Muc_id,<<"@">>,Domain),Muc_name,<<"">>,Desc,<<"">>,<<"1">>),
+    	        case catch qtalk_sql:insert_muc_vcard_info(Server,qtalk_public:concat(Muc_id,<<"@">>,Domain),Muc_name,<<"">>,Desc,<<"">>,<<"1">>) of
+                    {updated, 1} -> ok;
+                    _ ->
+                        ejabberd_sql:sql_query(Server, [<<"update muc_vcard_info set show_name = '">>, Muc_name, <<"', muc_desc = '">>, Desc, <<"' version = version+1 where muc_name = '">>, qtalk_public:concat(Muc_id,<<"@">>,Domain), <<"';">>])
+                end,
                 Persistent_packet = http_muc_session:make_muc_persistent(),
                 http_muc_vcard_presence:send_update_vcard_presence(Muc_id),
                 catch ejabberd_router:route(jlib:make_jid(Muc_Towner,Host,<<"">>),jlib:jid_replace_resource(To_owner,<<"">>), Persistent_packet)	
