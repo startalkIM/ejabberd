@@ -1,5 +1,6 @@
-## 安装
+[返回首页](https://github.com/startalkIM/Startalk)
 
+## 安装
 前提条件(如果主机名，用户名和这里的不一致，则需要将安装步骤中的换成自己的名字)：
 
 + 服务器要求：ubuntu 1904
@@ -295,5 +296,4 @@ $ ./check.sh
 
 可以在二维码生成网站[http://www.liantu.com/](http://www.liantu.com/)生成导航地址的二维码，然后通过扫码在手机客户端添加导航
 
-请参考wiki和接口文档进行相关了解
-
+[返回首页](https://github.com/startalkIM/Startalk)
