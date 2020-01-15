@@ -1,4 +1,4 @@
-
+[返回首页](https://github.com/startalkIM/Startalk)
 
 # Startalk EJABBERD
 
@@ -452,3 +452,4 @@ $ tail -100f log/access.log
 - app@startalk.im（邮件）
 - 852987381（QQ群）
 - QQ群二维码 ![qq](image/qq.png)
+[返回首页](https://github.com/startalkIM/Startalk)
