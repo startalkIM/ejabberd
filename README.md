@@ -259,7 +259,7 @@ $ make
 $ make install
 
 or安装
-$ cd /startalk/download/or_open
+$ cd /startalk/download/openresty_ng
 $ cp -rf conf /startalk/openresty/nginx
 $ cp -rf lua_app /startalk/openresty/nginx
 
