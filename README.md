@@ -177,12 +177,18 @@ daemonize yes
 requirepass 123456
 maxmemory 134217728
  
+```
+
+
+### redis 启动
+```
 启动redis
 $ sudo redis-server /etc/redis.conf
  
 确认启动成功：
 $ sudo netstat -antlp | grep 6379
 tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      8813/redis-server 1
+
 ```
 
 ### 数据库安装
@@ -218,24 +224,28 @@ $ /opt/pg11/bin/initdb -D /export/pg110_data
 5. 修改数据库配置文件
 
 将/export/pg110_data/postgresql.conf中的logging_collector的值改为on
+```
 
-6. 启动DB实例
- 
+### 数据库启动
+```
 $ /opt/pg11/bin/pg_ctl -D /export/pg110_data start
 确认启动成功
 $ sudo netstat -antlp | grep 5432
 tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      4751/postmaster     
- 
-7. 初始化DB结构
+
+```
+### 初始化数据库
+``` 
+1. 初始化DB结构
  
 $ /opt/pg11/bin/psql -U postgres -d postgres -f /startalk/qtalk.sql
 $ /opt/pg11/bin/psql -U postgres -d ejabberd -f /startalk/init.sql
  
-8. 初始化DB user: ejabberd的密码
+2. 初始化DB user: ejabberd的密码
  
 $ /opt/pg11/bin/psql -U postgres -d postgres -c "ALTER USER ejabberd WITH PASSWORD '123456';"
  
-9 psql连接数据库
+3. psql连接数据库
 
 $ psql -U postgres -d ejabberd -h 127.0.0.1
 psql (9.2.24, server 11.1)
@@ -245,6 +255,7 @@ Type "help" for help.
 
 ejabberd=# select * from host_users;
 ```
+
 
 ### openresty安装
 
@@ -258,12 +269,14 @@ $ ./configure --prefix=/startalk/openresty --with-http_auth_request_module
 $ make
 $ make install
 
-or安装
+openresty 安装
 $ cd /startalk/download/openresty_ng
 $ cp -rf conf /startalk/openresty/nginx
 $ cp -rf lua_app /startalk/openresty/nginx
+```
+# openresty 启动
 
-or操作
+```
 启动：/startalk/openresty/nginx/sbin/nginx
 
 确认启动成功
@@ -311,7 +324,10 @@ $ make
 $ make install
 $ cp ejabberd.yml.qunar /startalk/ejabberd/etc/ejabberd/ejabberd.yml
 $ cp ejabberdctl.cfg.qunar /startalk/ejabberd/etc/ejabberd/ejabberdctl.cfg
+```
+### 启动 ejabberd
 
+```
 启动ejabberd
 
 $ cd /startalk/ejabberd
@@ -346,8 +362,10 @@ $ vim /startalk/tomcat/push_service/webapps/push_service/WEB-INF/classes/app.pro
 qtalk_push_url=http://ip:8091/qtapi/token/sendPush.qunar
 #使用星语push key
 qtalk_push_key=12342a14-e6c0-463f-90a0-92b8faec4063
+```
 
-启动java服务
+### 启动java服务
+```
 $ cd /startalk/tomcat/im_http_service
 $ ./bin/startup.sh
 
@@ -357,8 +375,12 @@ $ ./bin/startup.sh
 
 $ cd /startalk/tomcat/push_service
 $ ./bin/startup.sh
+```
 
-确认服务启动成功
+
+### 确认服务启动成功
+
+```
 $ sudo netstat -antlp | egrep '8081|8082|8083|8009|8010|8011|8005|8006|8007'
 tcp6       0      0 127.0.0.1:8007          :::*                    LISTEN      23853/java          
 tcp6       0      0 :::8009                 :::*                    LISTEN      23748/java          
