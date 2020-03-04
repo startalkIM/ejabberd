@@ -474,5 +474,5 @@ $ tail -100f log/access.log
 
 - app@startalk.im（邮件）
 - 1065751631（QQ群）
-- QQ群二维码 ![qq](image/qq.png)
+- QQ群二维码 ![qq](image/qq2.png)
 [返回首页](https://github.com/startalkIM/Startalk)
