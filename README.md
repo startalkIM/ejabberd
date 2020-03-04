@@ -473,6 +473,6 @@ $ tail -100f log/access.log
 ## 问题反馈
 
 - app@startalk.im（邮件）
-- 852987381（QQ群）
+- 1065751631（QQ群）
 - QQ群二维码 ![qq](image/qq.png)
 [返回首页](https://github.com/startalkIM/Startalk)
