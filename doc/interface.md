@@ -149,7 +149,7 @@ maType说明参考[matype说明](matype.md)
     "muc_owner": "admin",
     "muc_domain":"conference.qtalk.test.org",
     "muc_member": ["test1"],
-    "system":"test"}
+    "system":"test"
 }
 
 返回值：
