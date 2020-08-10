@@ -353,7 +353,7 @@ $  vim /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes/
 $  vim /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes/iosqtalk.json
 $  vim /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes/iosstartalk.json
 
-将ip替换成对应机器的ip地址(sed -i "s/ip/xxx.xxx.xxx.xxx/g")
+将ip替换成对应机器的ip地址(sed -i "s/ip/xxx.xxx.xxx.xxx/g" 或者在vim内 :%s/ip/xxx.xxx.xxx.xxx/g)
 
 修改推送服务的地址
 
@@ -395,30 +395,39 @@ tcp6       0      0 127.0.0.1:8006          :::*                    LISTEN      
 
 ### 安装后端搜索服务
 ```
-安装python3 (3以上都可以，以3.6为标准)
-$ cd /startalk/download/search
-$ sudo yum install https://centos7.iuscommunity.org/ius-release.rpm
-$ sudo yum install python36u python36-devel
+#### **准备**：
+#### *前提*:
+        openssl version >= 1.02
+        python3.7及以上 
+                https://www.python.org/downloads/source/ 选择最新tar包并下载
+                tar -zxvf Python-3.8.1.tgz
+                cd Python-3.8.1
+                ./configure
+                sudo make && make install
+        pip
+                sudo yum -y install python-pip
+        外网接口/nginx等转发服务
+        postgresql 10，相关字段参考qtalk
+        所需模块见requirements.txt， 建议使用virtualenv部署模块所需环境
+                sudo pip install -U virtualenv （安装virtualenv）
+                sudo pip install --upgrade pip
+                virtualenv --system-site-packages -p python3.8 ./venv （在当前目录下创建venv环境）
+                启动环境
+                source venv/bin/activate
 
-安装pip3
-$ sudo yum -y install python-pip
-所需模块见/startalk/download/search/requirements.txt, 建议使用virtualenv部署模块所需环境 (如不使用将系统级安装python3.6, 容易引起和大多数centos自带python2.7的冲突, 同时也需要自行安装python3的pip, 并指定pip3安装所需模块):
-$ sudo pip install -U virtualenv （安装virtualenv）
-$ sudo pip install --upgrade pip
-$ virtualenv --system-site-packages -p python3.6 ./venv （在当前目录下创建venv环境）
-启动环境
-$ source venv/bin/activate
-配置conf/configure.ini, 具体参数详见文件内注释, 如无特殊需求可不修改
-$ sudo vim ./conf/configure.ini
-安装项目所需模块(如未安装virtualenv, 需sudo yum install python36u-pip, 并使用sudo pip3.6代替命令中默认的pip)
-$ pip install -r requirements.txt
-设置PYTHONPATH
-$ export PYTHONPATH=path/to/project/search:$PYTHONPATH
-后台启动
-$ supervisord -c conf/supervisor.conf
-$ supervisorctl -c conf/supervisor.conf reload
-确保服务启动（观察日志,确保无报错）
-$ tail -100f log/access.log 
+#### *安装：*:
+        1)配置conf/configure.ini
+        2)pip install -r requirements.txt （推荐新建虚拟环境）
+        3)export PYTHONPATH=path/to/project/qtalk_search:$PYTHONPATH
+        4)cd path/to/project/qtalk_search
+        5)unlink /tmp/supervisor.sock
+        5)supervisord -c conf/supervisor.conf
+        7)supervisorctl -c conf/supervisor.conf reload
+       
+#### *确认服务开启：*:
+        确保日志无报错
+        tail -100f log/access.log
+
 ```
 可以执行以下脚本来检查一些常见的错误: 下载该文件[check.sh](https://github.com/startalkIM/openresty_ng/blob/master/tools/check.sh)
 
