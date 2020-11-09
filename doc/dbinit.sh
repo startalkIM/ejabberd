@@ -71,16 +71,10 @@ if [ "${db_status}" = "0" ]; then
   pg_trgm
   pgstattuple"
     psql postgres://${admin_account}:${admin_password}@${default_host}:${default_port} -f superUser.sql 
-    psql postgres://startalk:123456@${default_host}:${default_port}/ejabberd -f startalk.sql
     psql postgres://ejabberd:123456@${default_host}:${default_port}/ejabberd -f ejabberd.sql
-    # 为了select等权限不被拒
-    psql  postgres://${admin_account}:${admin_password}@${default_host}:${default_port} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ejabberd;" -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO startalk;"
-    
 elif [ "${db_status}" = "1" ]; then
     psql postgres://${admin_account}:${admin_password}@${default_host}:${default_port} -f superUser.sql 
-    psql postgres://startalk:123456@${default_host}:${default_port}/ejabberd -f startalk.sql  
     psql postgres://ejabberd:123456@${default_host}:${default_port}/ejabberd -f ejabberd.sql
-    psql  postgres://${admin_account}:${admin_password}@${default_host}:${default_port} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ejabberd;" -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO startalk;"
 else 
     # TODO: 对比新旧结构并且进行更新
     printf "请从https://github.com/startalkIM/ejabberd/tree/master/doc获取最新sqls"
