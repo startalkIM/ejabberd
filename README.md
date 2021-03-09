@@ -216,19 +216,31 @@ sudo yum install postgresql-contrib.x86_64
 sudo yum install postgresql-devel.x86_64
 sudo yum install postgresql-docs.x86_64
 sudo yum install postgresql-jdbc.noarch
+sudo yum install postgresql-server.x86_64
 ```
 
 在 CentOS 7 里，用预编译包安装完 postgresql 之后，可执行文件在 `/usr/bin/` 目录下，基本所有命令无序特殊路径设置。
 
 ### 初始化数据库实例
 
+```
+initdb /startalk/database
+```
+
 ### 数据库启动
 
 
 ```
-$ /opt/pg11/bin/pg_ctl -D /export/pg110_data start
+$ pg_ctl -D /startalk/database start
+```
+
 确认启动成功
+```
 $ sudo netstat -antlp | grep 5432
+```
+输出看上去应该像下面这样：
+
+```
 tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      4751/postmaster     
 
 ```
@@ -243,12 +255,12 @@ $ psql -U postgres -d ejabberd -f /startalk/init.sql
 ```
 
 2. 初始化DB user: ejabberd的密码
+3. 
 ``` 
 $ psql -U postgres -d postgres -c "ALTER USER ejabberd WITH PASSWORD '123456';"
 ```
  
 3. psql连接数据库
-4. 
 ```
 $ psql -U postgres -d ejabberd -h 127.0.0.1
 psql (9.2.24, server 11.1)
@@ -264,6 +276,7 @@ ejabberd=# select * from host_users;
 
 以 CentOS 7 为例，参考(openresty 官网）[http://openresty.org/en/linux-packages.html]
 我们可以用包的方法快速安装 openresty：
+
 ```
 sudo yum install openresty
 ```
@@ -278,10 +291,14 @@ openresty 包安装之后位于 `/usr/local/openresty`
 sudo /usr/local/openresty/nginx/sbin/nginx
 ```
 
-确认启动成功
+执行下面命令确认启动成功：
 
 ```
 $ sudo netstat -antlp | grep 8080
+```
+输出看上去应该像下面这样：
+
+```
 tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      23438/nginx: master
 ```
 
