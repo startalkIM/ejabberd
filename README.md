@@ -4,7 +4,7 @@
 
 [English Version](README.en.md)
 
-Startalk 的消息交换服务器是基于 ejabberd 开发的，根据业务需要改造而来。修改和扩展了很多ejaberd不支持的功能。
+Startalk 的消息交换服务器是基于 ejabberd 开发的，根据业务需要改造而来。修改和扩展了很多 ejaberd 不支持的功能。
 
 
 
@@ -62,20 +62,16 @@ IM数据库服务
 * redis 启动需要加载配置
 * 对 startalk 来说，配置中的 domain 非常重要，请务必仔细配置，保持一致。
 * 在开始之前请务必保证以下几个端口没有被占用：
-* 
-```
-openresty服务：8080
-im_http_service服务：8005 8009 8081
-qfproxy服务：8006 8010 8082
-push_service服务：8007 8011 8083
-qtalk_search服务：8884
 
-im服务： 5202 10050 5280
-
-db: 5432 
-
-redis: 6379
-```
+| 服务 ｜ 端口 ｜ 备注｜
+|openresty服务| 8080 | |
+|im_http_service服务| 8005 8009 8081| |
+|qfproxy服务 | 8006 8010 8082| |
+| push_service服务| 8007 8011 8083| |
+| qtalk_search服务 | 8884 | |
+| im服务 | 5202 10050 5280 | |
+| db | 5432 | |
+| redis | 6379|
 
 ## 安装
 
