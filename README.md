@@ -274,7 +274,7 @@ ejabberd=# select * from host_users;
 
 ### openresty安装
 
-以 CentOS 7 为例，参考(openresty 官网）[http://openresty.org/en/linux-packages.html]
+以 CentOS 7 为例，参考[openresty 官网](http://openresty.org/en/linux-packages.html)
 我们可以用包的方法快速安装 openresty：
 
 ```
@@ -302,7 +302,7 @@ $ sudo netstat -antlp | grep 8080
 tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      23438/nginx: master
 ```
 
-### 安装erlang
+### 安装 erlang
 
 ```
 $ cd /startalk/download
@@ -312,8 +312,10 @@ $ cd otp_src_19.3
 $ ./configure --prefix=/startalk/erlang1903
 $ make
 $ make install
+```
 
-添加PATH
+把执行路径添加到 PATH 环境变量
+```
 $ vim ~/.bash_profile
  
 ----------------------------------
@@ -321,11 +323,19 @@ $ vim ~/.bash_profile
 ERLANGPATH=/startalk/erlang1903
 PATH=$PATH:$HOME/bin:$ERLANGPATH/bin
 ----------------------------------
- 
-$ . ~/.bash_profile
+```
 
-确认erlang安装成功
+```
+$ . ~/.bash_profile
+```
+
+执行下面命令验证 erlang 是否安装成功：
+
+```
 $ erl
+```
+输出看上去下面这样就是成功了：
+```
 Erlang/OTP 19 [erts-8.3] [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:false]
 
 Eshell V8.3  (abort with ^G)
@@ -346,13 +356,12 @@ $ cp ejabberdctl.cfg.qunar /startalk/ejabberd/etc/ejabberd/ejabberdctl.cfg
 ### 启动 ejabberd
 
 ```
-启动ejabberd
-
 $ cd /startalk/ejabberd
-启动
 $ ./sbin/ejabberdctl start
+```
 
-确认ejabberd安装成功
+验证 ejabberd 是否启动成功：
+```
 $ ps -ef | grep 's ejabberd'
 startalk 23515     1  4 09:58 ?        00:00:03 /startalk/erlang1903/lib/erlang/erts-8.3/bin/beam.smp -K true -P 250000 -- -root /startalk/erlang1903/lib/erlang -progname erl -- -home /home/startalk -- -name ejabberd@startalk.com -noshell -noinput -noshell -noinput -mnesia dir "/startalk/ejabberd/var/lib/ejabberd" -ejabberd log_rate_limit 20000 log_rotate_size 504857600 log_rotate_count 41 log_rotate_date "$D0" -s ejabberd -smp auto start
 ```
