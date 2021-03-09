@@ -4,16 +4,14 @@
 
 [English Version](README.en.md)
 
-Startalk(前身叫Qtalk，目前主体app尚未全部改名完毕。)是基于ejabberd，根据业务需要改造而来。修改和扩展了很多
-ejaberd不支持的功能。
+Startalk 的消息交换服务器是基于 ejabberd 开发的，根据业务需要改造而来。修改和扩展了很多 ejaberd 不支持的功能。
 
 
 
 ## 关键功能
 
--   分布式：去掉了依赖mnesia集群的代码，来支持更大的集群，以及防止由于网络分区导致的集群状态不一致。
+-   分布式：去掉了依赖 mnesia 集群的代码，来支持更大的集群，以及防止由于网络分区导致的集群状态不一致。
 -   消息处理：通过ejabberd和kafka相连接，实现了消息的路由和订阅发布，可以对消息添加更丰富的处理逻辑。
--   &#x2026;
 
 ## Startalk 模块
 
@@ -21,22 +19,22 @@ ejaberd不支持的功能。
 
 + [ejabberd](https://github.com/startalkIM/ejabberd)
 
-IM核心组件，负责维持与客户端的长连接和消息路由
+IM 核心组件，负责维持与客户端的长连接和消息路由
 
 + [or](https://github.com/startalkIM/openresty_ng)
 
-IM负载均衡组件，负责验证客户端身份，以及转发http请求到对应的后台服务
+IM 负载均衡组件，负责验证客户端身份，以及转发http请求到对应的后台服务
 + [im_http_service](https://github.com/startalkIM/im_http_service)
 
-IM HTTP接口服务，负责IM相关数据的查询、设置以及历史消息同步(基于tomcat的java服务)
+IM HTTP 接口服务，负责 IM 相关数据的查询、设置以及历史消息同步(基于 tomcat 的 java 服务)
 
 + [qfproxy](https://github.com/startalkIM/qfproxy)
 
-IM文件服务，负责文件的上传和下载(基于tomcat的java服务)
+IM 文件服务，负责文件的上传和下载(基于 tomcat 的 java服务)
 
 + [push_service](https://github.com/startalkIM/push_service)
 
-IM的push服务，用于离线消息的推送(基于tomcat的java服务)
+IM 的 push 服务，用于离线消息的推送(基于 tomcat 的 java 服务)
 
 + [qtalk_serach](https://github.com/startalkIM/search)
 
@@ -55,26 +53,29 @@ IM数据库服务
 ![architecture](image/arch.png)
 
 ## 注意事项
+
 以下文档请务必仔细阅读和参照执行，否则可能会创建失败
 
 强调几点：
-* 切勿使用root账号进行如下操作，很多软件会检查当前用户名称，so请新建用户来进行操作;
+
+* 切勿使用 root 账号进行如下操作，很多软件会检查当前用户名称，so 请新建用户来进行操作;
 * redis 启动需要加载配置
-* 对startalk来说，配置中的domain 非常重要，请务必仔细配置，保持一致。
+* 对 startalk 来说，配置中的 domain 非常重要，请务必仔细配置，保持一致。
 * 在开始之前请务必保证以下几个端口没有被占用：
-```
-openresty服务：8080
-im_http_service服务：8005 8009 8081
-qfproxy服务：8006 8010 8082
-push_service服务：8007 8011 8083
-qtalk_search服务：8884
 
-im服务： 5202 10050 5280
+|服务|端口|备注|
+| ------------- |:-------------:| -----:|
+|openresty服务|8080||
+|im_http_service服务|8005 8009 8081||
+|qfproxy服务|8006 8010 8082||
+|push_service服务|8007 8011 8083||
+|qtalk_search服务|8884||
+|im服务|5202 10050 5280||
+|db|5432||
+|redis|6379||
 
-db: 5432 
 
-redis: 6379
-```
+
 
 ## 安装
 
@@ -82,20 +83,21 @@ redis: 6379
 
 + 服务器要求：centos7.x
 + 主机名是：startalk.com
-+ hosts添加： 127.0.0.1 startalk.com(sudo vim /etc/hosts)
-+ 所有项目都安装到/startalk下面
-+ 安装用户和用户组是：startalk:startalk，要保证startalk用户有sudo权限
-+ 家目录下有download文件夹，所有文件会下载到该文件夹下
-+ 数据库用户名密码是ejabberd:123456，服务地址是：127.0.0.1
-+ redis密码是：123456，服务地址是：127.0.0.1
-+ 数据库初始化sql在doc目录下
-+ 保证可访问主机的：5202、8080端口（关掉防火墙：sudo systemctl stop firewalld.service）
-+ IM服务的域名是:qtalk(大家安装线上之前，最好确定好这个值，一旦定了，之后修改的成本就很高，可以参考[domain修改](https://github.com/startalkIM/ejabberd/wiki/host%E4%BF%AE%E6%94%B9)来修改)
-+ tls证书：默认安装用的是一个测试证书，线上使用，请更换/startalk/ejabberd/etc/ejabberd/server.pem文件，生成方法见[securing-ejabberd-with-tls-encryption](https://blog.process-one.net/securing-ejabberd-with-tls-encryption/)
-+ 出现文件覆盖提示时，输入yes敲回车即可
-+ 安装文档中#开头输入的命令表示root执行的，$开头的命令表示普通用户
++ hosts 添加： 127.0.0.1 startalk.com(sudo vim /etc/hosts)
++ 所有项目都安装到 /startalk 下面
++ 安装用户和用户组是：startalk:startalk，要保证 startalk 用户有 sudo 权限
++ 家目录下有 download 文件夹，所有文件会下载到该文件夹下
++ 数据库用户名密码是 ejabberd:123456，服务地址是：127.0.0.1
++ redis 密码是：123456，服务地址是：127.0.0.1
++ 数据库初始化 sql 在 doc 目录下
++ 保证可访问主机的：5202、8080 端口（关掉防火墙：sudo systemctl stop firewalld.service）
++ IM 服务的域名是:startalk(大家安装线上之前，最好确定好这个值，一旦定了，之后修改的成本就很高，可以参考[domain 修改](https://github.com/startalkIM/ejabberd/wiki/host%E4%BF%AE%E6%94%B9)来修改)
++ tls证书：默认安装用的是一个测试证书，线上使用，请更换 /startalk/ejabberd/etc/ejabberd/server.pem 文件，生成方法见 [securing-ejabberd-with-tls-encryption](https://blog.process-one.net/securing-ejabberd-with-tls-encryption/)
++ 出现文件覆盖提示时，输入 yes 敲回车即可
++ 安装文档中 # 开头输入的命令表示 root 执行的，$开头的命令表示普通用户
 
 ### 依赖包
+
 ```
 # yum -y install epel-release
 # yum -y update
@@ -113,14 +115,19 @@ redis: 6379
 
 ### 新建安装用户
 
+新增 startalk 用户：
 ```
 # groupadd startalk
 # useradd -g startalk startalk
 # passwd startalk
+```
 
+新增 postgresql 数据库用户（用缺省系统包管理安装 postgresql 的用户可以忽略这一步骤）：
+
+```
 # groupadd postgres
 # useradd -g postgres postgres
-# passwd postgres  
+# passwd postgres
 ```
 
 ### 新建安装目录
@@ -165,8 +172,9 @@ $ chmod 777 /startalk/qtalk.sql
 
 ```
 # sudo netstat -antlp | egrep "8080|8005|8009|8081|8006|8010|8082|8007|8011|8083|8888|5202|10050|5280|6379"
-若没有任何输出，则表明没有程序占用startalk使用的端口，否则需要关闭已经在使用端口的程序
 ```
+若没有任何输出，则表明没有程序占用startalk使用的端口，否则需要关闭已经在使用端口的程序
+
 
 ### redis安装
 
@@ -182,11 +190,14 @@ maxmemory 134217728
 
 
 ### redis 启动
-```
+
 启动redis
+
+```
 $ sudo redis-server /etc/redis.conf
- 
+``` 
 确认启动成功：
+```
 $ sudo netstat -antlp | grep 6379
 tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      8813/redis-server 1
 
@@ -194,60 +205,63 @@ tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      
 
 ### 数据库安装
 
-```
-１ 下载源代码
-$ wget https://ftp.postgresql.org/pub/source/v11.1/postgresql-11.1.tar.gz
- 
-2 编译安装
-#解压
-$ tar -zxvf postgresql-11.1.tar.gz
-$ cd postgresql-11.1/
-$ sudo ./configure --prefix=/opt/pg11 --with-perl --with-libxml --with-libxslt
- 
-$ sudo make world
-#编译的结果最后必须如下，否则需要检查哪里有error
-#PostgreSQL, contrib, and documentation successfully made. Ready to install.
- 
-$ sudo make install-world
-#安装的结果做后必须如下，否则没有安装成功
-#PostgreSQL installation complete.
- 
-3. 添加postgres OS用户
-$ sudo mkdir -p /export/pg110_data
-  
-$ sudo chown postgres:postgres /export/pg110_data
- 
-4. 创建数据库实例
-$ su - postgres
- 
-$ /opt/pg11/bin/initdb -D /export/pg110_data
- 
-5. 修改数据库配置文件
+建议使用 OS 发行版对应的预编译包，比如在 CentOS 7 里，我们可以执行下面命令搜索并安装 PostgreSQL：
 
-将/export/pg110_data/postgresql.conf中的logging_collector的值改为on
+```
+sudo yum search postgresql
+```
+```
+sudo yum install postgresql.x86_64
+sudo yum install postgresql-contrib.x86_64
+sudo yum install postgresql-devel.x86_64
+sudo yum install postgresql-docs.x86_64
+sudo yum install postgresql-jdbc.noarch
+sudo yum install postgresql-server.x86_64
+```
+
+在 CentOS 7 里，用预编译包安装完 postgresql 之后，可执行文件在 `/usr/bin/` 目录下，基本所有命令无序特殊路径设置。
+
+### 初始化数据库实例
+
+```
+initdb /startalk/database
 ```
 
 ### 数据库启动
+
+
 ```
-$ /opt/pg11/bin/pg_ctl -D /export/pg110_data start
+$ pg_ctl -D /startalk/database start
+```
+
 确认启动成功
+```
 $ sudo netstat -antlp | grep 5432
+```
+输出看上去应该像下面这样：
+
+```
 tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      4751/postmaster     
 
 ```
 ### 初始化数据库
-``` 
+
 1. 初始化DB结构
+
+``` 
  
-$ /opt/pg11/bin/psql -U postgres -d postgres -f /startalk/qtalk.sql
-$ /opt/pg11/bin/psql -U postgres -d ejabberd -f /startalk/init.sql
- 
+$ psql -U postgres -d postgres -f /startalk/qtalk.sql
+$ psql -U postgres -d ejabberd -f /startalk/init.sql
+```
+
 2. 初始化DB user: ejabberd的密码
- 
-$ /opt/pg11/bin/psql -U postgres -d postgres -c "ALTER USER ejabberd WITH PASSWORD '123456';"
+3. 
+``` 
+$ psql -U postgres -d postgres -c "ALTER USER ejabberd WITH PASSWORD '123456';"
+```
  
 3. psql连接数据库
-
+```
 $ psql -U postgres -d ejabberd -h 127.0.0.1
 psql (9.2.24, server 11.1)
 WARNING: psql version 9.2, server version 11.0.
@@ -260,28 +274,31 @@ ejabberd=# select * from host_users;
 
 ### openresty安装
 
-```
-$ su - startalk
-$ cd /startalk/download
-$ wget https://openresty.org/download/openresty-1.13.6.2.tar.gz
-$ tar -zxvf openresty-1.13.6.2.tar.gz
-$ cd openresty-1.13.6.2
-$ ./configure --prefix=/startalk/openresty --with-http_auth_request_module
-$ make
-$ make install
+以 CentOS 7 为例，参考(openresty 官网）[http://openresty.org/en/linux-packages.html]
+我们可以用包的方法快速安装 openresty：
 
-openresty 安装
-$ cd /startalk/download/openresty_ng
-$ cp -rf conf /startalk/openresty/nginx
-$ cp -rf lua_app /startalk/openresty/nginx
 ```
+sudo yum install openresty
+```
+
 # openresty 启动
 
-```
-启动：/startalk/openresty/nginx/sbin/nginx
+openresty 包安装之后位于 `/usr/local/openresty`
 
-确认启动成功
+启动方法是：
+
+```
+sudo /usr/local/openresty/nginx/sbin/nginx
+```
+
+执行下面命令确认启动成功：
+
+```
 $ sudo netstat -antlp | grep 8080
+```
+输出看上去应该像下面这样：
+
+```
 tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      23438/nginx: master
 ```
 
@@ -383,6 +400,10 @@ $ ./bin/startup.sh
 
 ```
 $ sudo netstat -antlp | egrep '8081|8082|8083|8009|8010|8011|8005|8006|8007'
+```
+输出看上去像下面这样：
+
+```
 tcp6       0      0 127.0.0.1:8007          :::*                    LISTEN      23853/java          
 tcp6       0      0 :::8009                 :::*                    LISTEN      23748/java          
 tcp6       0      0 :::8010                 :::*                    LISTEN      23785/java          
