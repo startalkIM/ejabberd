@@ -79,22 +79,22 @@ IM数据库服务
 
 ## 安装
 
-前提条件(如果主机名，用户名和这里的不一致，则需要将安装步骤中的换成自己的名字)：
+预设条件(如果主机名，用户名和这里的不一致，则需要将安装步骤中的换成自己的名字)：
 
 + 服务器要求：centos7.x
-+ 主机名是：startalk.com
-+ hosts 添加： 127.0.0.1 startalk.com(sudo vim /etc/hosts)
++ 主机名用变量 STARTALK，可以替换成自己的主机名
++ hosts 添加： 127.0.0.1 ${STARTALK} (sudo vim /etc/hosts)
 + 所有项目都安装到 /startalk 下面
 + 安装用户和用户组是：startalk:startalk，要保证 startalk 用户有 sudo 权限
 + 家目录下有 download 文件夹，所有文件会下载到该文件夹下
 + 数据库用户名密码是 ejabberd:123456，服务地址是：127.0.0.1
 + redis 密码是：123456，服务地址是：127.0.0.1
 + 数据库初始化 sql 在 doc 目录下
-+ 保证可访问主机的：5202、8080 端口（关掉防火墙：sudo systemctl stop firewalld.service）
++ 保证可访问主机的：5202、8080 端口（关掉防火墙：`sudo systemctl stop firewalld.service`）
 + IM 服务的域名是:startalk(大家安装线上之前，最好确定好这个值，一旦定了，之后修改的成本就很高，可以参考[domain 修改](https://github.com/startalkIM/ejabberd/wiki/host%E4%BF%AE%E6%94%B9)来修改)
-+ tls证书：默认安装用的是一个测试证书，线上使用，请更换 /startalk/ejabberd/etc/ejabberd/server.pem 文件，生成方法见 [securing-ejabberd-with-tls-encryption](https://blog.process-one.net/securing-ejabberd-with-tls-encryption/)
++ tls 证书：默认安装用的是一个测试证书，线上使用，请更换 /startalk/ejabberd/etc/ejabberd/server.pem 文件，生成方法见 [securing-ejabberd-with-tls-encryption](https://blog.process-one.net/securing-ejabberd-with-tls-encryption/)
 + 出现文件覆盖提示时，输入 yes 敲回车即可
-+ 安装文档中 # 开头输入的命令表示 root 执行的，$开头的命令表示普通用户
++ 安装文档中 # 开头输入的命令表示 root 执行的，$ 开头的命令表示普通用户
 
 ### 依赖包
 
@@ -107,15 +107,17 @@ IM数据库服务
 
 ### 添加host
 
+在 `/etc/hosts` 里面添加下面一行：
+
 ```
-# vim /etc/hosts
-添加下面一行
 127.0.0.1 startalk.com
 ```
+请注意如果是生产服务，可以设置自己的域名的 DNS，如果有正确 DNS 域名解析的话，这一步不是必须的。
 
 ### 新建安装用户
 
 新增 startalk 用户：
+
 ```
 # groupadd startalk
 # useradd -g startalk startalk
@@ -224,14 +226,14 @@ sudo yum install postgresql-server.x86_64
 ### 初始化数据库实例
 
 ```
-initdb /startalk/database
+sudo -u postgres initdb /startalk/database
 ```
 
 ### 数据库启动
 
 
 ```
-$ pg_ctl -D /startalk/database start
+sudo -u postgres pg_ctl -D /startalk/database start
 ```
 
 确认启动成功
@@ -255,12 +257,13 @@ $ psql -U postgres -d ejabberd -f /startalk/init.sql
 ```
 
 2. 初始化DB user: ejabberd的密码
-3. 
+
 ``` 
 $ psql -U postgres -d postgres -c "ALTER USER ejabberd WITH PASSWORD '123456';"
 ```
  
-3. psql连接数据库
+3. psql 连接数据库
+
 ```
 $ psql -U postgres -d ejabberd -h 127.0.0.1
 psql (9.2.24, server 11.1)
@@ -270,7 +273,7 @@ Type "help" for help.
 
 ejabberd=# select * from host_users;
 ```
-
+4. 如果 ejabberd 和 postgresql 数据库不在同一服务器，则参考 postgresql 的文档修改数据库的 `pg_hba.conf` 文件允许 ejabberd 的服务器访问数据库服务器。
 
 ### openresty安装
 
@@ -281,7 +284,7 @@ ejabberd=# select * from host_users;
 sudo yum install openresty
 ```
 
-# openresty 启动
+### openresty 启动
 
 openresty 包安装之后位于 `/usr/local/openresty`
 
@@ -300,6 +303,15 @@ $ sudo netstat -antlp | grep 8080
 
 ```
 tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      23438/nginx: master
+```
+### 为 Startalk 配置 OpenResty 
+
+请参考[Startalk OpenResty 配置](https://github.com/startalkIM/openresty_ng/blob/master/README_CN.md) 把 Startalk 的 OpenResty 相关配置下载、配置上。
+然后重启 OpenResty:
+
+```
+sudo killall nginx
+sudo /usr/local/openresty/nginx/sbin/nginx 
 ```
 
 ### 安装erlang
