@@ -40,7 +40,6 @@ start(_Type, Args) ->
     Dispatch = cowboy_router:compile([
         {'_', [
             {"/qtalk/[...]", http_dispatch, []},
-            {"/qmonitor.jsp",http_qmonitor,[]},
             {"/send_muc_presence",http_muc_vcard_presence,[]},
             {"/reload_module", http_reload_module, []}
         ]}
