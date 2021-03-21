@@ -36,7 +36,7 @@ IM 文件服务，负责文件的上传和下载(基于 tomcat 的 java服务)
 
 IM 的 push 服务，用于离线消息的推送(基于 tomcat 的 java 服务)
 
-+ [qtalk_serach](https://github.com/startalkIM/search)
++ [serach](https://github.com/startalkIM/search)
 
 提供远程搜索人员和群的服务
 
@@ -69,7 +69,7 @@ IM数据库服务
 |im_http_service服务|8005 8009 8081||
 |qfproxy服务|8006 8010 8082||
 |push_service服务|8007 8011 8083||
-|qtalk_search服务|8884||
+|search服务|8884||
 |im服务|5202 10050 5280||
 |db|5432||
 |redis|6379||
@@ -102,7 +102,7 @@ IM数据库服务
 # yum -y install epel-release
 # yum -y update
 # yum -y groupinstall Base "Development Tools" "Perl Support"
-# yum install -y telnet aspell bzip2 collectd-postgresql collectd-rrdtool collectd.x86_64 curl db4 expat.x86_64 gcc gcc-c++ gd gdbm git gmp ImageMagick java-1.8.0-openjdk java-1.8.0-openjdk-devel libcollection libedit libffi libicu libpcap libtidy libwebp libxml2 libXpm libxslt libyaml.x86_64 mailcap ncurses ncurses npm openssl openssl-devel pcre perl perl-Business-ISBN perl-Business-ISBN-Data perl-Collectd perl-Compress-Raw-Bzip2 perl-Compress-Raw-Zlib perl-Config-General perl-Data-Dumper perl-Digest perl-Digest-MD5 perl-Encode-Locale perl-ExtUtils-Embed perl-ExtUtils-MakeMaker perl-GD perl-HTML-Parser perl-HTML-Tagset perl-HTTP-Date perl-HTTP-Message perl-IO-Compress perl-IO-HTML perl-JSON perl-LWP-MediaTypes perl-Regexp-Common perl-Thread-Queue perl-TimeDate perl-URI python readline recode redis rrdtool rrdtool-perl sqlite systemtap-sdt.x86_64 tk xz zlib rng-tools python36-psycopg2.x86_64 python34-psycopg2.x86_64 python-psycopg2.x86_64 python-pillow python34-pip screen unixODBC unixODBC-devel pkgconfig libSM libSM-devel ncurses-devel libyaml-devel expat-devel libxml2-devel pam-devel pcre-devel gd-devel bzip2-devel zlib-devel libicu-devel libwebp-devel gmp-devel curl-devel postgresql-devel libtidy-devel libmcrypt libmcrypt readline-devel libxslt-devel vim docbook-dtds docbook-style-xslt fop
+# yum install -y telnet aspell bzip2 collectd-postgresql collectd-rrdtool collectd.x86_64 curl db4 expat.x86_64 gcc gcc-c++ gd gdbm git gmp ImageMagick java-1.8.0-openjdk java-1.8.0-openjdk-devel libcollection libedit libffi libffi-devel libicu libpcap libtidy libwebp libxml2 libXpm libxslt libyaml.x86_64 mailcap ncurses ncurses npm openssl openssl-devel pcre perl perl-Business-ISBN perl-Business-ISBN-Data perl-Collectd perl-Compress-Raw-Bzip2 perl-Compress-Raw-Zlib perl-Config-General perl-Data-Dumper perl-Digest perl-Digest-MD5 perl-Encode-Locale perl-ExtUtils-Embed perl-ExtUtils-MakeMaker perl-GD perl-HTML-Parser perl-HTML-Tagset perl-HTTP-Date perl-HTTP-Message perl-IO-Compress perl-IO-HTML perl-JSON perl-LWP-MediaTypes perl-Regexp-Common perl-Thread-Queue perl-TimeDate perl-URI python readline recode redis rrdtool rrdtool-perl sqlite systemtap-sdt.x86_64 tk xz zlib rng-tools python36-psycopg2.x86_64 python34-psycopg2.x86_64 python-psycopg2.x86_64 python-pillow python34-pip screen unixODBC unixODBC-devel pkgconfig libSM libSM-devel ncurses-devel libyaml-devel expat-devel libxml2-devel pam-devel pcre-devel gd-devel bzip2-devel zlib-devel libicu-devel libwebp-devel gmp-devel curl-devel postgresql-devel libtidy-devel libmcrypt libmcrypt readline-devel libxslt-devel vim docbook-dtds docbook-style-xslt fop
 ```
 
 ### 添加host
@@ -139,6 +139,13 @@ IM数据库服务
 # chown startalk:startalk /startalk
 ```
 
+### 新建数据库目录
+
+```
+# mkdir /startalk/database
+# chown -R postgres:postgres /startalk/database
+```
+
 ### 为startalk用户添加sudo权限
 
 ```
@@ -167,7 +174,6 @@ $ git clone https://github.com/startalkIM/tomcat_projects.git
 
 $ cp ejabberd/doc/qtalk.sql /startalk/
 $ cp ejabberd/doc/init.sql /startalk/
-$ chmod 777 /startalk/qtalk.sql
 ```
 
 ### 检测端口使用：
@@ -207,33 +213,29 @@ tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      
 
 ### 数据库安装
 
-建议使用 OS 发行版对应的预编译包，比如在 CentOS 7 里，我们可以执行下面命令搜索并安装 PostgreSQL：
+建议使用 OS 发行版对应的预编译包，比如在 CentOS 7 里，我们可以执行下面命令搜索并安装 PostgreSQL12：
 
-```
-sudo yum search postgresql
-```
-```
-sudo yum install postgresql.x86_64
-sudo yum install postgresql-contrib.x86_64
-sudo yum install postgresql-devel.x86_64
-sudo yum install postgresql-docs.x86_64
-sudo yum install postgresql-jdbc.noarch
-sudo yum install postgresql-server.x86_64
-```
+> # Install the repository RPM:
+> sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 
-在 CentOS 7 里，用预编译包安装完 postgresql 之后，可执行文件在 `/usr/bin/` 目录下，基本所有命令无序特殊路径设置。
+
+> # Install PostgreSQL:
+> sudo yum install -y postgresql12-server
+
+
+
+在 CentOS 7 里，用预编译包安装完 postgresql 之后，可执行文件在 `/usr/pgsql-12/bin` 目录下，基本所有命令无序特殊路径设置。
 
 ### 初始化数据库实例
 
 ```
-sudo -u postgres initdb /startalk/database
+sudo -u postgres /usr/pgsql-12/bin/initdb -D /startalk/database
 ```
 
 ### 数据库启动
 
-
 ```
-sudo -u postgres pg_ctl -D /startalk/database start
+sudo -u postgres /usr/pgsql-12/bin/pg_ctl -D /startalk/database start
 ```
 
 确认启动成功
@@ -266,10 +268,7 @@ $ psql -U postgres -d postgres -c "ALTER USER ejabberd WITH PASSWORD '123456';"
 
 ```
 $ psql -U postgres -d ejabberd -h 127.0.0.1
-psql (9.2.24, server 11.1)
-WARNING: psql version 9.2, server version 11.0.
-         Some psql features might not work.
-Type "help" for help.
+psql (12.6)
 
 ejabberd=# select * from host_users;
 ```
@@ -281,6 +280,9 @@ ejabberd=# select * from host_users;
 我们可以用包的方法快速安装 openresty：
 
 ```
+wget https://openresty.org/package/centos/openresty.repo
+sudo mv openresty.repo /etc/yum.repos.d/
+sudo yum check-update
 sudo yum install openresty
 ```
 
@@ -385,6 +387,14 @@ $ cd /startalk/download/
 $ cp -rf tomcat_projects /startalk/tomcat
 $ cd /startalk/tomcat
 
+修改推送服务的地址
+
+$ vim /startalk/tomcat/push_service/webapps/push_service/WEB-INF/classes/app.properties
+#使用星语push url, 将ip换为服务器ip
+qtalk_push_url=http://ip:8091/qtapi/token/sendPush.qunar
+#使用星语push key
+qtalk_push_key=12342a14-e6c0-463f-90a0-92b8faec4063
+
 修改导航地址和扩展键盘：
 $  vim /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes/nav.json
 $  vim /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes/androidqtalk.json
@@ -394,13 +404,6 @@ $  vim /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes/
 
 将ip替换成对应机器的ip地址(sed -i "s/ip/xxx.xxx.xxx.xxx/g" 或者在vim内 :%s/ip/xxx.xxx.xxx.xxx/g)
 
-修改推送服务的地址
-
-$ vim /startalk/tomcat/push_service/webapps/push_service/WEB-INF/classes/app.properties
-#使用星语push url
-qtalk_push_url=http://ip:8091/qtapi/token/sendPush.qunar
-#使用星语push key
-qtalk_push_key=12342a14-e6c0-463f-90a0-92b8faec4063
 ```
 
 ### 启动java服务
@@ -441,35 +444,35 @@ tcp6       0      0 127.0.0.1:8006          :::*                    LISTEN      
 #### **准备**：
 #### *前提*:
         openssl version >= 1.02
-        python3.7及以上 
-                https://www.python.org/downloads/source/ 选择最新tar包并下载
-                tar -zxvf Python-3.8.1.tgz
-                cd Python-3.8.1
-                ./configure
-                sudo make && make install
-        pip
-                sudo yum -y install python-pip
+        python3.7及以上,以3.9.2为例 
+                cd /startalk/download && wget https://www.python.org/ftp/python/3.9.2/Python-3.9.2.tgz
+                tar -zxvf Python-3.9.2.tgz
+                cd Python-3.9.2
+                ./configure --prefix=/startalk/python392
+                make && make install
+        添加到bash_profile 
+                vim ~/.bash_profile
+			PYTHONPATH=/startalk/python392
+			PATH=$PATH:$PYTHONPATH/bin
+                :wq
+                source ~/.bash_profile
         外网接口/nginx等转发服务
         postgresql 10，相关字段参考qtalk
-        所需模块见requirements.txt， 建议使用virtualenv部署模块所需环境
-                sudo pip install -U virtualenv （安装virtualenv）
-                sudo pip install --upgrade pip
-                virtualenv --system-site-packages -p python3.8 ./venv （在当前目录下创建venv环境）
+        所需模块见requirements.txt， 建议使用virtualenv部署模块所需环境, 建议使用-i 国内源下载项目
+                /startalk/python392/bin/python3.9 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+                pip3.9 install -U virtualenv -i https://pypi.tuna.tsinghua.edu.cn/simple （安装virtualenv）
+                cp -rf /startalk/download/search /startalk/ && cd /startalk/search && virtualenv --system-site-packages -p python3.9 ./venv （在当前目录下创建venv环境）
                 启动环境
                 source venv/bin/activate
 
 #### *安装：*:
         1)配置conf/configure.ini
-        2)pip install -r requirements.txt （推荐新建虚拟环境）
-        3)export PYTHONPATH=path/to/project/qtalk_search:$PYTHONPATH
-        4)cd path/to/project/qtalk_search
-        5)unlink /tmp/supervisor.sock
-        5)supervisord -c conf/supervisor.conf
-        7)supervisorctl -c conf/supervisor.conf reload
+        2)pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+        3)supervisord -c /startalk/search/conf/supervisor.conf
        
 #### *确认服务开启：*:
         确保日志无报错
-        tail -100f log/access.log
+        tail -100f /startalk/search/log/access.log
 
 ```
 可以执行以下脚本来检查一些常见的错误: 下载该文件[check.sh](https://github.com/startalkIM/openresty_ng/blob/master/tools/check.sh)
