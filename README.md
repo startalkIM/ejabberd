@@ -215,12 +215,15 @@ tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      
 
 建议使用 OS 发行版对应的预编译包，比如在 CentOS 7 里，我们可以执行下面命令搜索并安装 PostgreSQL12：
 
-> # Install the repository RPM:
-> sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+>  Install the repository RPM:  
+``` 
+sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+```
 
-
-> # Install PostgreSQL:
-> sudo yum install -y postgresql12-server
+>  Install PostgreSQL:
+```
+ sudo yum install -y postgresql12-server
+```
 
 
 
@@ -380,7 +383,8 @@ $ ps -ef | grep 's ejabberd'
 startalk 23515     1  4 09:58 ?        00:00:03 /startalk/erlang1903/lib/erlang/erts-8.3/bin/beam.smp -K true -P 250000 -- -root /startalk/erlang1903/lib/erlang -progname erl -- -home /home/startalk -- -name ejabberd@startalk.com -noshell -noinput -noshell -noinput -mnesia dir "/startalk/ejabberd/var/lib/ejabberd" -ejabberd log_rate_limit 20000 log_rotate_size 504857600 log_rotate_count 41 log_rotate_date "$D0" -s ejabberd -smp auto start
 ```
 
-### 安装java服务(/startalk/download/tomcat_projects/下的是打好包的三个java服务，自己也可以使用源码打包，然后自己部署)
+### 安装java服务
+> /startalk/download/tomcat_projects/ 下的是打好包的三个java服务，自己也可以使用源码打包，然后自己部署
 
 ```
 $ cd /startalk/download/
@@ -440,41 +444,62 @@ tcp6       0      0 127.0.0.1:8006          :::*                    LISTEN      
 ```
 
 ### 安装后端搜索服务
-```
-#### **准备**：
-#### *前提*:
-        openssl version >= 1.02
-        python3.7及以上,以3.9.2为例 
-                cd /startalk/download && wget https://www.python.org/ftp/python/3.9.2/Python-3.9.2.tgz
-                tar -zxvf Python-3.9.2.tgz
-                cd Python-3.9.2
-                ./configure --prefix=/startalk/python392
-                make && make install
-        添加到bash_profile 
-                vim ~/.bash_profile
-			PYTHONPATH=/startalk/python392
-			PATH=$PATH:$PYTHONPATH/bin
-                :wq
-                source ~/.bash_profile
-        外网接口/nginx等转发服务
-        postgresql 10，相关字段参考qtalk
-        所需模块见requirements.txt， 建议使用virtualenv部署模块所需环境, 建议使用-i 国内源下载项目
-                /startalk/python392/bin/python3.9 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
-                pip3.9 install -U virtualenv -i https://pypi.tuna.tsinghua.edu.cn/simple （安装virtualenv）
-                cp -rf /startalk/download/search /startalk/ && cd /startalk/search && virtualenv --system-site-packages -p python3.9 ./venv （在当前目录下创建venv环境）
-                启动环境
-                source venv/bin/activate
 
-#### *安装：*:
-        1)配置conf/configure.ini
-        2)pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-        3)supervisord -c /startalk/search/conf/supervisor.conf
-       
-#### *确认服务开启：*:
-        确保日志无报错
-        tail -100f /startalk/search/log/access.log
-
+#### 前提:
+* openssl version >= 1.02
+* python3.7及以上, 以3.9.2为例
 ```
+        cd /startalk/download && wget https://www.python.org/ftp/python/3.9.2/Python-3.9.2.tgz
+        tar -zxvf Python-3.9.2.tgz
+        cd Python-3.9.2
+        ./configure --prefix=/startalk/python392
+        make && make install
+```
+* 添加到bash_profile
+```
+vim ~/.bash_profile
+        PYTHONPATH=/startalk/python392
+        PATH=$PATH:$PYTHONPATH/bin
+:wq
+source ~/.bash_profile
+```
+
+* (可选) 建议使用virtualenv部署模块所需环境
+> 升级pip
+```
+/startalk/python392/bin/python3.9 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+> 下载安装virtualenv
+```
+pip3.9 install -U virtualenv -i https://pypi.tuna.tsinghua.edu.cn/simple 
+```
+> 创建虚拟环境
+```
+cp -rf /startalk/download/search /startalk/ && cd /startalk/search && virtualenv --system-site-packages -p python3.9 ./venv
+```
+> 启动环境
+```
+source venv/bin/activate
+```
+
+#### 安装：
+* 配置conf/configure.ini
+* 安装依赖,  使用-i 国内源下载项目
+```
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+* 启动项目
+```
+supervisord -c /startalk/search/conf/supervisor.conf
+```
+
+#### 确认服务正常：
+```
+tail -100f /startalk/search/log/access.log
+```
+--------------------------------------------------------------------------------
+
+
 可以执行以下脚本来检查一些常见的错误: 下载该文件[check.sh](https://github.com/startalkIM/openresty_ng/blob/master/tools/check.sh)
 
 ```
@@ -486,7 +511,7 @@ tcp6       0      0 127.0.0.1:8006          :::*                    LISTEN      
 如果发现有提示："ip的5202端口未开启外网访问，请开启该端口访问或者关掉防火墙"，请在服务器上使用telnet ip 5202检查是否可以连上，一般是因为防火墙限制了或者端口就没监听。
 
 到此，服务端已经安装完成。
-请下载[startalk客户端](https://im.qunar.com/new/#/download)
+请下载[startalk客户端](https://i.startalk.im/home/#/download)
 
 客户端配置导航地址：[http://ip:8080/newapi/nck/qtalk_nav.qunar](http://ip:8080/newapi/nck/qtalk_nav.qunar)，使用账号：admin，密码：testpassword登陆(将ip替换成自己服务器的ip)
 
