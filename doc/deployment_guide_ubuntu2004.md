@@ -98,11 +98,15 @@ sudo systemctl restart openresty
 ```
 sudo su - postgres
 psql -c "alter user postgres password '123456'";
-cd /startalk/download/ejabberd/doc/```  
+cd /startalk/download/ejabberd/doc/
+```  
 \# 使用脚本进行创建, 可能会遇到因pg版本不同导致的命令错误, 需要进行人工交互
+```
 cp  /etc/postgresql/11/main/postgresql.conf  /etc/postgresql/11/main/postgresql.conf.bak  
 sed -i 's/#\s*logging_collector\s*=\s*off/logging_collector = on/g'  /etc/postgresql/11/main/postgresql.conf  
+```
 \# 修改pg_hba.conf使账户可以通过密码登陆, 文件通常位于/etc/postgresql/11/main/pg_hba.conf
+```
 vim /etc/postgresql/11/main/pg_hba.conf
 	# "local" is for Unix domain socket connections only
 	local   all             all                                     md5
@@ -137,7 +141,6 @@ cd /startalk/ejabberd
 ```
 cp -r /startalk/download/openresty_ng/deps/tomcat /startalk
 cp -r /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes.bak
-# !!!!! 需要互动, hostname -I不确定是否正确
 ip a
 echo -n "监测到ip `hostname -I`, 确认请回车, 错误请手动输入: " && read MY_IP && MY_IP=${MY_IP:-`hostname -I|sed 's/ //g'`}
 sed -i "s/ip/$MY_IP/g" /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes/*.json
@@ -170,4 +173,3 @@ deactivate
 
 
 > 至此结束, 请查看 http://ip:8080/newapi/nck/qtalk_nav.qunar 导航是否正确显示, 并下载客户端进行登录
-
