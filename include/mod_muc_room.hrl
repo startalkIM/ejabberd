@@ -49,6 +49,7 @@
     public_list                          = true :: boolean(),
     persistent                           = false :: boolean(),
     moderated                            = true :: boolean(),
+    forbidden_words         			 = false :: boolean(),
     captcha_protected                    = false :: boolean(),
     members_by_default                   = true :: boolean(),
     members_only                         = false :: boolean(),
@@ -117,6 +118,7 @@
     just_created            = false :: boolean(),
     activity                = treap:empty() :: treap:treap(),
     room_shaper             = none :: shaper:shaper(),
+    forbidden_words         = false :: boolean(),
     tref                    = undefined::reference(),
     room_queue              = queue:new() :: ?TQUEUE
 }).
