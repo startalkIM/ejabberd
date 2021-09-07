@@ -138,7 +138,6 @@ cd /startalk/ejabberd
 
 
 #### java服务们, 需要三个tomcat, 其中qfproxy为文件服务, push_service为推送服务, im_http_service为im相关几乎所有http接口的java平台  
-> TODO: 需要互动, hostname -I不确定是否正确
 ```
 cp -r /startalk/download/openresty_ng/deps/tomcat /startalk
 cp -r /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes /startalk/tomcat/im_http_service/webapps/im_http_service/WEB-INF/classes.bak

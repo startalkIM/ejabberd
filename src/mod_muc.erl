@@ -217,6 +217,7 @@ init([Host, Opts]) ->
 			     moderated -> Bool;
 			     password_protected -> Bool;
 			     persistent -> Bool;
+				 forbidden_words -> Bool;
 			     public -> Bool;
 			     public_list -> Bool;
 			     mam -> Bool;
@@ -857,6 +858,8 @@ mod_opt_type(min_presence_interval) ->
 mod_opt_type(room_shaper) ->
     fun (A) when is_atom(A) -> A end;
 mod_opt_type(user_message_shaper) ->
+    fun (A) when is_atom(A) -> A end;
+mod_opt_type(forbidden_words) ->
     fun (A) when is_atom(A) -> A end;
 mod_opt_type(user_presence_shaper) ->
     fun (A) when is_atom(A) -> A end;

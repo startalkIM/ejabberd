@@ -233,3 +233,5 @@
 -define(NS_CHECK_VERSION,  <<"jabber:iq:check-version">>).
 -define(NS_BLOCK, <<"urn:xmpp:block">>).
 -define(CONFIG_XMPP_TIME_KEY, <<"config:xmpp:time_key">>).
+-define(NS_MUC_USER_FORBIDDEN_WORDS,
+    <<"http://jabber.org/protocol/muc#muc_forbidden_words">>).

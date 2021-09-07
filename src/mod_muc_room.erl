@@ -119,6 +119,7 @@ init([Host, ServerHost, Access, Room, HistorySize,
     store_room(State1),
 
     NewState = invite_all_register_user(State1), 
+	%%
     
     ?INFO_MSG("Created MUC room ~s@~s by ~s",
 	      [Room, Host, jid:to_string(Creator)]),
@@ -135,7 +136,6 @@ init([Host, ServerHost, Access, Room, HistorySize, RoomShaper, Opts]) ->
 				  history = lqueue_new(HistorySize),
 				  jid = jid:make(Room, Host, <<"">>),
 				  room_shaper = Shaper}),
-    
     NewState = invite_all_register_user(State),    
 
     TRef = start_timer(),
@@ -151,6 +151,7 @@ normal_state({route, From, <<"">>,
     {KeyNew, ReasonNew, StateNew} =
     case is_user_online_with_no_resource(From, StateData) orelse
 	is_subscriber(From, StateData) orelse
+	is_forbidden_words(From, StateData) orelse
 	is_user_allowed_message_nonparticipant(From, StateData)
 	of
       true ->
@@ -434,6 +435,7 @@ normal_state({route, From, <<"">>,
                or (XMLNS == (?NS_MUC_USER_SUBSCRIBE_V2))
                or (XMLNS == (?NS_MUC_DEL_REGISTER))
                or (XMLNS == (?NS_MUC_IQ_MEMBER))
+               or (XMLNS == (?NS_MUC_USER_FORBIDDEN_WORDS))
                or (XMLNS == (?NS_MUC_ONLINE_REGISTER)) ->
 		    Res1 = case XMLNS of
 			       ?NS_MUC_ADMIN ->
@@ -467,6 +469,8 @@ normal_state({route, From, <<"">>,
                    process_iq_authority(From,Type,Lang,SubEl,StateData);
                    ?NS_MUC_ONLINE_REGISTER ->
                    process_iq_online_register(From,Type,Lang,SubEl,StateData);
+				   ?NS_MUC_USER_FORBIDDEN_WORDS->
+				   process_iq_forbidden_words(From,Type,Lang,SubEl,StateData);
 			       ?NS_CAPTCHA ->
 				   process_iq_captcha(From, Type, Lang, SubEl, StateData)
 			   end,
@@ -1389,6 +1393,19 @@ is_occupant_or_admin(JID, StateData) ->
       _ -> false
     end.
 
+is_forbidden_words(JID, StateData) ->
+	case StateData#state.forbidden_words of 
+	true ->
+    	FAffiliation = get_affiliation(JID, StateData),
+    	case FAffiliation == admin orelse FAffiliation == owner
+    	of
+    	  true -> true;
+    	  _ -> false
+    	end;
+	_ ->
+		true
+	end.
+
 %%%
 %%% Handle IQ queries of vCard
 %%%
@@ -2163,6 +2180,7 @@ do_add_new_user(Flag,From1, Nick,
 					   add_online_user(From, Nick, Role,
 							   StateData)),
                               send_presence_by_flag(Flag,From, Attrs,NewState,StateData),
+				  catch send_forbidden_words_notice_to_jid(list_to_binary(atom_to_list(NewState#state.forbidden_words)),From,NewState),
 			      NewState;
 			 true ->
 			      set_subscriber(From, Nick, Nodes, StateData)
@@ -4398,6 +4416,7 @@ make_opts(StateData) ->
      ?MAKE_CONFIG_OPT(public), ?MAKE_CONFIG_OPT(public_list),
      ?MAKE_CONFIG_OPT(persistent),
      ?MAKE_CONFIG_OPT(moderated),
+     ?MAKE_CONFIG_OPT(forbidden_words),
      ?MAKE_CONFIG_OPT(members_by_default),
      ?MAKE_CONFIG_OPT(members_only),
      ?MAKE_CONFIG_OPT(allow_user_invites),
@@ -5141,6 +5160,8 @@ store_room(StateData) ->
        true -> ok
     end.
 
+
+
 send_wrapped(From, To, Packet, Node, State) ->
     LTo = jid:tolower(To),
     LBareTo = jid:tolower(jid:remove_resource(To)),
@@ -5572,6 +5593,73 @@ process_iq_authority(_From,get,_Lang,_SubEl,StateData) ->
 process_iq_authority(_From,set,_Lang,_SubEl,_StateData) ->
     {error,?ERR_FORBIDDEN}.
 
+process_iq_forbidden_words(_From,get,_Lang,_SubEl,StateData)->
+	Sub = [#xmlel{name = <<"forbidden_words">> , attrs = [{<<"forbidden">>,list_to_binary(atom_to_list(StateData#state.forbidden_words))}],  children = []}],
+    {result, Sub, StateData};
+process_iq_forbidden_words(From,set,Lang,SubEl,StateData)->
+    FAffiliation = get_affiliation(From, StateData),
+    %FRole = get_role(From, StateData),
+    if  FAffiliation == owner; FAffiliation == admin ->
+		BoolForbiddenWords = set_muc_forbidden_words(SubEl),
+		NewState = set_new_muc_forbidden_words(BoolForbiddenWords,StateData),
+		Sub = [#xmlel{name = <<"forbidden_words">> , attrs = [{<<"forbidden">>,BoolForbiddenWords}],  children = []}],
+        {result, Sub, NewState};
+       true ->
+        Txt = <<"Muc owner or admin required">>,
+        {error, ?ERRT_FORBIDDEN(Lang, Txt)}
+    end.
+
+set_muc_forbidden_words(SubEl) ->
+	#xmlel{attrs = Attrs} = SubEl,
+	?DEBUG("set_muc_forbidden_words attrs ~p ~n",[Attrs]),
+	case catch fxml:get_attr_s(<<"set_forbidden">>, Attrs) of
+	<<"true">> ->
+			<<"true">>;
+	_ ->
+		<<"false">>
+	end.
+
+set_new_muc_forbidden_words(BoolForbiddenWords,StateData) ->
+	case BoolForbiddenWords of
+	<<"true">> ->
+		case StateData#state.forbidden_words of
+		true ->
+			StateData;
+		_ ->
+			send_forbidden_words_notice(BoolForbiddenWords,StateData),
+			NewState = StateData#state{forbidden_words = true},
+			catch mod_muc:store_room(NewState#state.server_host,NewState#state.host, NewState#state.room,make_opts(NewState)),
+			NewState
+		end;
+	_ ->
+		case StateData#state.forbidden_words of
+		true ->
+			send_forbidden_words_notice(BoolForbiddenWords,StateData),
+			NewState = StateData#state{forbidden_words = false},
+			catch mod_muc:store_room(NewState#state.server_host,NewState#state.host, NewState#state.room,make_opts(NewState)),
+			NewState;
+		_ ->
+			StateData
+		end
+	end.
+
+
+send_forbidden_words_notice(BoolForbiddenWords,StateData) ->
+    Packet = #xmlel{name = <<"presence">>,
+                    attrs = [{<<"xmlns">>,?NS_MUC_USER_FORBIDDEN_WORDS}, {<<"forbidden_words">>,  BoolForbiddenWords}],
+                    children = []},
+    lists:foreach(fun({_LJID, Info}) ->
+              ejabberd_router:route(StateData#state.jid,
+                       Info#user.jid, Packet)
+          end,
+          (?DICT):to_list(StateData#state.users)).
+
+send_forbidden_words_notice_to_jid(BoolForbiddenWords,From,StateData) ->
+    Packet = #xmlel{name = <<"presence">>,
+                    attrs = [{<<"xmlns">>,?NS_MUC_USER_FORBIDDEN_WORDS}, {<<"forbidden_words">>,  BoolForbiddenWords}],
+                    children = []},
+              ejabberd_router:route(StateData#state.jid,
+                       jlib:jid_remove_resource(From), Packet).
 %%%%%%%%--------------------------------------------------------------------
 %%%%%%%% @date 2017-03-01
 %%%%%%%% 处理用户ＩＱ在线注册者
