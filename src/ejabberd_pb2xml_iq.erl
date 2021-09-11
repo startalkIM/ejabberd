@@ -4,7 +4,7 @@
 -include("jlib.hrl").
 -include("logger.hrl").
 
--export([parse_iq_message/1]).
+-export([parse_iq_message/1,make_iq_message/8]).
 
 parse_iq_message(Pb_message) ->
     case catch message_pb:decode_iqmessage(Pb_message#protomessage.message) of
@@ -158,6 +158,22 @@ make_iq_message("CANCEL_MEMBER", _Value, _From, To, _Type, ID, Body, _Bodys) ->
           children = [#xmlel{name = <<"query">>, attrs = [{<<"xmlns">>,<<"http://jabber.org/protocol/muc#admin">>}],
                 children = [ejabberd_pb2xml_public:make_attrs_xmlel(
                             list_to_binary(Body#messagebody.value),Body#messagebody.headers,<<"">>,[])]}]},
+    {xmlstreamelement,Xml};
+make_iq_message("SET_FORBIDDEN_WORDS", _Value, _From, To, _Type, ID, Body, _Bodys) ->
+    Xml = #xmlel{name = <<"iq">>,
+            attrs = make_iq_master_attrs(To,ID,<<"set">>),
+			children = [ejabberd_pb2xml_public:make_attrs_xmlel(
+                            <<"query">>,
+							Body#messagebody.headers,
+							<<"http://jabber.org/protocol/muc#muc_forbidden_words">>,[])]},
+    {xmlstreamelement,Xml};
+make_iq_message("GET_FORBIDDEN_WORDS", _Value, _From, To, _Type, ID, Body, _Bodys) ->
+    Xml = #xmlel{name = <<"iq">>,
+            attrs = make_iq_master_attrs(To,ID,<<"get">>),
+			children = [ejabberd_pb2xml_public:make_attrs_xmlel(
+                            <<"query">>,
+							[],
+							<<"http://jabber.org/protocol/muc#muc_forbidden_words">>,[])]},
     {xmlstreamelement,Xml};
 make_iq_message("USER_MUCS", _Value, From, To, _Type, ID, _Body, _Bodys) ->
     Xml = 

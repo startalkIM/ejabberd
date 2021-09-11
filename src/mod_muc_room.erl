@@ -5611,8 +5611,7 @@ process_iq_forbidden_words(From,set,Lang,SubEl,StateData)->
 
 set_muc_forbidden_words(SubEl) ->
 	#xmlel{attrs = Attrs} = SubEl,
-	?DEBUG("set_muc_forbidden_words attrs ~p ~n",[Attrs]),
-	case catch fxml:get_attr_s(<<"set_forbidden">>, Attrs) of
+	case catch fxml:get_attr_s(<<"forbidden_words">>, Attrs) of
 	<<"true">> ->
 			<<"true">>;
 	_ ->

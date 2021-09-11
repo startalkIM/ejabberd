@@ -3411,6 +3411,8 @@ do_send_probuf_msg(StateData,From,To, Packet = #xmlel{name = <<"presence">>}) ->
                 ejabberd_xml2pb_presence:encode_delete_friend(From,To,Packet);
         <<"jabber:x:mask_user">> ->
                 ejabberd_xml2pb_presence:encode_presence_mask_user(From,To,Packet);
+		<<"http://jabber.org/protocol/muc#muc_forbidden_words">> ->
+				ejabberd_xml2pb_presence:encode_presence_forbidden_words(From,To,Packet);
         <<"">> ->
             case catch qtalk_public:get_sub_xmlns_name(Packet) of
             {<<"x">>,<<"http://jabber.org/protocol/muc#user">>} ->
@@ -3520,6 +3522,8 @@ encode_iq_result_pb_packet(StateData,From,To, Packet) ->
         ejabberd_xml2pb_iq:encode_pb_muc_amdin(From,To,Packet);
     {<<"query">>,<<"http://jabber.org/protocol/muc#owner">>} ->
         ejabberd_xml2pb_iq:encode_pb_destroy_muc(From,To,Packet);
+    {<<"query">>, <<"http://jabber.org/protocol/muc#muc_forbidden_words">>} ->
+        ejabberd_xml2pb_iq:encode_pb_forbidden_words(From,To,Packet);
     {<<"get_verify_friend_mode">>,<<"jabber:iq:verify_friend_mode">>} ->
         ejabberd_xml2pb_iq:encode_pb_get_friend_opt(From,To,Packet);
     {<<"set_verify_friend_mode">>,<<"jabber:iq:verify_friend_mode">>} ->
