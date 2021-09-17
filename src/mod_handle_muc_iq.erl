@@ -15,6 +15,8 @@ handle_iq(Server,Room,Host,<<"">>,From,To,Packet) ->
             (XMLNS == (?NS_CREATE_MUC)) or
             (XMLNS == (?NS_MUC_USER_SUBSCRIBE)) or
             (XMLNS == (?NS_MUC_USER_SUBSCRIBE_V2)) or
+            (XMLNS == (?NS_MUC_USER_SUBSCRIBE_V2)) or
+            (XMLNS == (?NS_MUC_USER_FORBIDDEN_WORDS)) or
             (XMLNS == (?NS_MUC_DEL_REGISTER)) ->
      case XMLNS of
         ?NS_MUC_ADMIN ->
@@ -40,6 +42,11 @@ handle_iq(Server,Room,Host,<<"">>,From,To,Packet) ->
             set -> send_error_packet(From,To,Packet)
             end;
         ?NS_MUC_INVITE_V2 ->
+            case Type of
+            set -> mod_muc:recreate_muc_room(Server,Host,Room,From,<<"">>,Packet,true);
+            _ -> send_error_packet(From,To,Packet)
+            end;
+        ?NS_MUC_USER_FORBIDDEN_WORDS ->
             case Type of
             set -> mod_muc:recreate_muc_room(Server,Host,Room,From,<<"">>,Packet,true);
             _ -> send_error_packet(From,To,Packet)
