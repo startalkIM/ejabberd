@@ -4390,6 +4390,7 @@ set_opts([{Opt, Val} | Opts], StateData) ->
 		StateData#state{affiliations = (?DICT):from_list(Val)};
 	    subject -> StateData#state{subject = Val};
 	    subject_author -> StateData#state{subject_author = Val};
+        forbidden_words -> StateData#state{forbidden_words = Val};
 	    _ -> StateData
 	  end,
     set_opts(Opts, NSD).
