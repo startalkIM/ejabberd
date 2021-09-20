@@ -52,7 +52,7 @@ change_muc_opts(Args) ->
     end.
 
 do_update_muc_opts(Server, Opts, Args) ->
-    KeyList = ["public","persistent","max_users"],
+    KeyList = ["public","persistent","max_users","forbidden_words"],
     NewOpts = lists:foldl(fun(Opt,Acc) ->
             case proplists:get_value(Opt,Args) of
             undefined -> Acc;
