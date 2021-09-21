@@ -2,40 +2,68 @@
 
 -module(message_pb).
 
--export([encode_xmppmessage/1, decode_xmppmessage/1,
-	 delimited_decode_xmppmessage/1,
-	 encode_presencemessage/1, decode_presencemessage/1,
-	 delimited_decode_presencemessage/1, encode_iqmessage/1,
-	 decode_iqmessage/1, delimited_decode_iqmessage/1,
-	 encode_messagebody/1, decode_messagebody/1,
-	 delimited_decode_messagebody/1, encode_protomessage/1,
-	 decode_protomessage/1, delimited_decode_protomessage/1,
-	 encode_responsefailure/1, decode_responsefailure/1,
-	 delimited_decode_responsefailure/1,
-	 encode_responsesucceeded/1, decode_responsesucceeded/1,
-	 delimited_decode_responsesucceeded/1,
-	 encode_capability/1, decode_capability/1,
-	 delimited_decode_capability/1, encode_userconnect/1,
-	 decode_userconnect/1, delimited_decode_userconnect/1,
-	 encode_streamend/1, decode_streamend/1,
-	 delimited_decode_streamend/1, encode_proceedtls/1,
-	 decode_proceedtls/1, delimited_decode_proceedtls/1,
-	 encode_starttls/1, decode_starttls/1,
-	 delimited_decode_starttls/1, encode_streambegin/1,
-	 decode_streambegin/1, delimited_decode_streambegin/1,
-	 encode_welcomemessage/1, decode_welcomemessage/1,
-	 delimited_decode_welcomemessage/1, encode_authmessage/1,
-	 decode_authmessage/1, delimited_decode_authmessage/1,
-	 encode_protoheader/1, decode_protoheader/1,
-	 delimited_decode_protoheader/1, encode_packagelength/1,
-	 decode_packagelength/1,
-	 delimited_decode_packagelength/1, encode_stringheader/1,
-	 decode_stringheader/1, delimited_decode_stringheader/1,
-	 encode_messagekeyvalue/1, decode_messagekeyvalue/1,
-	 delimited_decode_messagekeyvalue/1]).
+-export([encode_xmppmessage/1,
+         decode_xmppmessage/1,
+         delimited_decode_xmppmessage/1,
+         encode_presencemessage/1,
+         decode_presencemessage/1,
+         delimited_decode_presencemessage/1,
+         encode_iqmessage/1,
+         decode_iqmessage/1,
+         delimited_decode_iqmessage/1,
+         encode_messagebody/1,
+         decode_messagebody/1,
+         delimited_decode_messagebody/1,
+         encode_protomessage/1,
+         decode_protomessage/1,
+         delimited_decode_protomessage/1,
+         encode_responsefailure/1,
+         decode_responsefailure/1,
+         delimited_decode_responsefailure/1,
+         encode_responsesucceeded/1,
+         decode_responsesucceeded/1,
+         delimited_decode_responsesucceeded/1,
+         encode_capability/1,
+         decode_capability/1,
+         delimited_decode_capability/1,
+         encode_userconnect/1,
+         decode_userconnect/1,
+         delimited_decode_userconnect/1,
+         encode_streamend/1,
+         decode_streamend/1,
+         delimited_decode_streamend/1,
+         encode_proceedtls/1,
+         decode_proceedtls/1,
+         delimited_decode_proceedtls/1,
+         encode_starttls/1,
+         decode_starttls/1,
+         delimited_decode_starttls/1,
+         encode_streambegin/1,
+         decode_streambegin/1,
+         delimited_decode_streambegin/1,
+         encode_welcomemessage/1,
+         decode_welcomemessage/1,
+         delimited_decode_welcomemessage/1,
+         encode_authmessage/1,
+         decode_authmessage/1,
+         delimited_decode_authmessage/1,
+         encode_protoheader/1,
+         decode_protoheader/1,
+         delimited_decode_protoheader/1,
+         encode_packagelength/1,
+         decode_packagelength/1,
+         delimited_decode_packagelength/1,
+         encode_stringheader/1,
+         decode_stringheader/1,
+         delimited_decode_stringheader/1,
+         encode_messagekeyvalue/1,
+         decode_messagekeyvalue/1,
+         delimited_decode_messagekeyvalue/1]).
 
--export([has_extension/2, extension_size/1,
-	 get_extension/2, set_extension/3]).
+-export([has_extension/2,
+         extension_size/1,
+         get_extension/2,
+         set_extension/3]).
 
 -export([decode_extensions/1]).
 
@@ -44,25 +72,61 @@
 -export([int_to_enum/2, enum_to_int/2]).
 
 -record(xmppmessage,
-	{messagetype, clienttype, clientversion, namespace, key,
-	 value, messageid, header, body, receivedtime,
-	 transfertime, headers, bodys}).
+        {messagetype,
+         clienttype,
+         clientversion,
+         namespace,
+         key,
+         value,
+         messageid,
+         header,
+         body,
+         receivedtime,
+         transfertime,
+         headers,
+         bodys}).
 
 -record(presencemessage,
-	{namespace, key, value, messageid, header, body,
-	 receivedtime, transfertime, headers, bodys, definedkey,
-	 categorytype}).
+        {namespace,
+         key,
+         value,
+         messageid,
+         header,
+         body,
+         receivedtime,
+         transfertime,
+         headers,
+         bodys,
+         definedkey,
+         categorytype}).
 
 -record(iqmessage,
-	{namespace, key, value, messageid, header, body,
-	 receivedtime, transfertime, headers, bodys,
-	 definedkey}).
+        {namespace,
+         key,
+         value,
+         messageid,
+         header,
+         body,
+         receivedtime,
+         transfertime,
+         headers,
+         bodys,
+         definedkey}).
 
 -record(messagebody, {headers, value, bodys}).
 
 -record(protomessage,
-	{options, signaltype, from, to, message, realfrom,
-	 realto, originfrom, originto, origintype, sendjid}).
+        {options,
+         signaltype,
+         from,
+         to,
+         message,
+         realfrom,
+         realto,
+         originfrom,
+         originto,
+         origintype,
+         sendjid}).
 
 -record(responsefailure, {code, msgid, error, body}).
 
@@ -81,20 +145,26 @@
 -record(streambegin, {domain, version, bodys}).
 
 -record(welcomemessage,
-	{domain, version, user, sockmod}).
+        {domain, version, user, sockmod}).
 
 -record(authmessage,
-	{mechanism, method, msgid, authkey, otherbody}).
+        {mechanism, method, msgid, authkey, otherbody}).
 
 -record(protoheader,
-	{version, options, optionlist, length, content,
-	 message}).
+        {version,
+         options,
+         optionlist,
+         length,
+         content,
+         message}).
 
 -record(packagelength, {length}).
 
 -record(stringheader, {params, key, value, definedkey}).
 
 -record(messagekeyvalue, {key, value}).
+
+-dialyzer(no_match).
 
 encode([]) -> [];
 encode(Records) when is_list(Records) ->
@@ -317,293 +387,476 @@ encode_extensions(_) -> [].
 
 delimited_encode(Records) ->
     lists:map(fun (Record) ->
-		      IoRec = encode(Record),
-		      Size = iolist_size(IoRec),
-		      [protobuffs:encode_varint(Size), IoRec]
-	      end,
-	      Records).
+                      IoRec = encode(Record),
+                      Size = iolist_size(IoRec),
+                      [protobuffs:encode_varint(Size), IoRec]
+              end,
+              Records).
 
 iolist(messagekeyvalue, Record) ->
-    [pack(1, optional,
-	  with_default(Record#messagekeyvalue.key, none), string,
-	  []),
-     pack(2, optional,
-	  with_default(Record#messagekeyvalue.value, none),
-	  string, [])];
+    [pack(1,
+          optional,
+          with_default(Record#messagekeyvalue.key, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#messagekeyvalue.value, none),
+          string,
+          [])];
 iolist(stringheader, Record) ->
-    [pack(1, repeated,
-	  with_default(Record#stringheader.params, none),
-	  messagekeyvalue, []),
-     pack(2, optional,
-	  with_default(Record#stringheader.key, none), string,
-	  []),
-     pack(3, optional,
-	  with_default(Record#stringheader.value, none), string,
-	  []),
-     pack(4, optional,
-	  with_default(Record#stringheader.definedkey, none),
-	  stringheadertype, [])];
+    [pack(1,
+          repeated,
+          with_default(Record#stringheader.params, none),
+          messagekeyvalue,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#stringheader.key, none),
+          string,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#stringheader.value, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#stringheader.definedkey, none),
+          stringheadertype,
+          [])];
 iolist(packagelength, Record) ->
-    [pack(1, optional,
-	  with_default(Record#packagelength.length, none), int32,
-	  [])];
+    [pack(1,
+          optional,
+          with_default(Record#packagelength.length, none),
+          int32,
+          [])];
 iolist(protoheader, Record) ->
-    [pack(1, optional,
-	  with_default(Record#protoheader.version, none), int32,
-	  []),
-     pack(2, optional,
-	  with_default(Record#protoheader.options, none), int32,
-	  []),
-     pack(3, repeated,
-	  with_default(Record#protoheader.optionlist, none),
-	  int32, []),
-     pack(4, optional,
-	  with_default(Record#protoheader.length, none), int32,
-	  []),
-     pack(5, optional,
-	  with_default(Record#protoheader.content, none), string,
-	  []),
-     pack(6, optional,
-	  with_default(Record#protoheader.message, none), bytes,
-	  [])];
+    [pack(1,
+          optional,
+          with_default(Record#protoheader.version, none),
+          int32,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#protoheader.options, none),
+          int32,
+          []),
+     pack(3,
+          repeated,
+          with_default(Record#protoheader.optionlist, none),
+          int32,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#protoheader.length, none),
+          int32,
+          []),
+     pack(5,
+          optional,
+          with_default(Record#protoheader.content, none),
+          string,
+          []),
+     pack(6,
+          optional,
+          with_default(Record#protoheader.message, none),
+          bytes,
+          [])];
 iolist(authmessage, Record) ->
-    [pack(1, optional,
-	  with_default(Record#authmessage.mechanism, none),
-	  string, []),
-     pack(2, optional,
-	  with_default(Record#authmessage.method, none), string,
-	  []),
-     pack(3, optional,
-	  with_default(Record#authmessage.msgid, none), string,
-	  []),
-     pack(4, optional,
-	  with_default(Record#authmessage.authkey, none), string,
-	  []),
-     pack(5, optional,
-	  with_default(Record#authmessage.otherbody, none),
-	  messagebody, [])];
+    [pack(1,
+          optional,
+          with_default(Record#authmessage.mechanism, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#authmessage.method, none),
+          string,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#authmessage.msgid, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#authmessage.authkey, none),
+          string,
+          []),
+     pack(5,
+          optional,
+          with_default(Record#authmessage.otherbody, none),
+          messagebody,
+          [])];
 iolist(welcomemessage, Record) ->
-    [pack(1, optional,
-	  with_default(Record#welcomemessage.domain, none),
-	  string, []),
-     pack(2, optional,
-	  with_default(Record#welcomemessage.version, none),
-	  string, []),
-     pack(3, optional,
-	  with_default(Record#welcomemessage.user, none), string,
-	  []),
-     pack(4, optional,
-	  with_default(Record#welcomemessage.sockmod, none),
-	  string, [])];
+    [pack(1,
+          optional,
+          with_default(Record#welcomemessage.domain, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#welcomemessage.version, none),
+          string,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#welcomemessage.user, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#welcomemessage.sockmod, none),
+          string,
+          [])];
 iolist(streambegin, Record) ->
-    [pack(1, optional,
-	  with_default(Record#streambegin.domain, none), string,
-	  []),
-     pack(2, optional,
-	  with_default(Record#streambegin.version, none), string,
-	  []),
-     pack(3, repeated,
-	  with_default(Record#streambegin.bodys, none),
-	  messagebody, [])];
+    [pack(1,
+          optional,
+          with_default(Record#streambegin.domain, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#streambegin.version, none),
+          string,
+          []),
+     pack(3,
+          repeated,
+          with_default(Record#streambegin.bodys, none),
+          messagebody,
+          [])];
 iolist(starttls, _Record) -> [];
 iolist(proceedtls, _Record) -> [];
 iolist(streamend, Record) ->
-    [pack(1, optional,
-	  with_default(Record#streamend.reason, none), string,
-	  []),
-     pack(2, optional,
-	  with_default(Record#streamend.code, none), int32, [])];
+    [pack(1,
+          optional,
+          with_default(Record#streamend.reason, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#streamend.code, none),
+          int32,
+          [])];
 iolist(userconnect, Record) ->
-    [pack(1, optional,
-	  with_default(Record#userconnect.domain, none), string,
-	  []),
-     pack(2, optional,
-	  with_default(Record#userconnect.version, none), string,
-	  [])];
+    [pack(1,
+          optional,
+          with_default(Record#userconnect.domain, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#userconnect.version, none),
+          string,
+          [])];
 iolist(capability, Record) ->
-    [pack(1, optional,
-	  with_default(Record#capability.version, none), string,
-	  []),
-     pack(2, optional,
-	  with_default(Record#capability.bodys, none),
-	  messagebody, [])];
+    [pack(1,
+          optional,
+          with_default(Record#capability.version, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#capability.bodys, none),
+          messagebody,
+          [])];
 iolist(responsesucceeded, Record) ->
-    [pack(1, optional,
-	  with_default(Record#responsesucceeded.code, none),
-	  int32, []),
-     pack(2, optional,
-	  with_default(Record#responsesucceeded.msgid, none),
-	  string, []),
-     pack(3, optional,
-	  with_default(Record#responsesucceeded.info, none),
-	  string, []),
-     pack(4, optional,
-	  with_default(Record#responsesucceeded.body, none),
-	  messagebody, [])];
+    [pack(1,
+          optional,
+          with_default(Record#responsesucceeded.code, none),
+          int32,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#responsesucceeded.msgid, none),
+          string,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#responsesucceeded.info, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#responsesucceeded.body, none),
+          messagebody,
+          [])];
 iolist(responsefailure, Record) ->
-    [pack(1, optional,
-	  with_default(Record#responsefailure.code, none), int32,
-	  []),
-     pack(2, optional,
-	  with_default(Record#responsefailure.msgid, none),
-	  string, []),
-     pack(3, optional,
-	  with_default(Record#responsefailure.error, none),
-	  string, []),
-     pack(4, optional,
-	  with_default(Record#responsefailure.body, none),
-	  messagebody, [])];
+    [pack(1,
+          optional,
+          with_default(Record#responsefailure.code, none),
+          int32,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#responsefailure.msgid, none),
+          string,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#responsefailure.error, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#responsefailure.body, none),
+          messagebody,
+          [])];
 iolist(protomessage, Record) ->
-    [pack(1, optional,
-	  with_default(Record#protomessage.options, none), int32,
-	  []),
-     pack(2, required,
-	  with_default(Record#protomessage.signaltype, none),
-	  int32, []),
-     pack(3, optional,
-	  with_default(Record#protomessage.from, none), string,
-	  []),
-     pack(4, optional,
-	  with_default(Record#protomessage.to, none), string, []),
-     pack(5, optional,
-	  with_default(Record#protomessage.message, none), bytes,
-	  []),
-     pack(6, optional,
-	  with_default(Record#protomessage.realfrom, none),
-	  string, []),
-     pack(7, optional,
-	  with_default(Record#protomessage.realto, none), string,
-	  []),
-     pack(8, optional,
-	  with_default(Record#protomessage.originfrom, none),
-	  string, []),
-     pack(9, optional,
-	  with_default(Record#protomessage.originto, none),
-	  string, []),
-     pack(10, optional,
-	  with_default(Record#protomessage.origintype, none),
-	  string, []),
-     pack(11, optional,
-	  with_default(Record#protomessage.sendjid, none), string,
-	  [])];
+    [pack(1,
+          optional,
+          with_default(Record#protomessage.options, none),
+          int32,
+          []),
+     pack(2,
+          required,
+          with_default(Record#protomessage.signaltype, none),
+          int32,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#protomessage.from, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#protomessage.to, none),
+          string,
+          []),
+     pack(5,
+          optional,
+          with_default(Record#protomessage.message, none),
+          bytes,
+          []),
+     pack(6,
+          optional,
+          with_default(Record#protomessage.realfrom, none),
+          string,
+          []),
+     pack(7,
+          optional,
+          with_default(Record#protomessage.realto, none),
+          string,
+          []),
+     pack(8,
+          optional,
+          with_default(Record#protomessage.originfrom, none),
+          string,
+          []),
+     pack(9,
+          optional,
+          with_default(Record#protomessage.originto, none),
+          string,
+          []),
+     pack(10,
+          optional,
+          with_default(Record#protomessage.origintype, none),
+          string,
+          []),
+     pack(11,
+          optional,
+          with_default(Record#protomessage.sendjid, none),
+          string,
+          [])];
 iolist(messagebody, Record) ->
-    [pack(1, repeated,
-	  with_default(Record#messagebody.headers, none),
-	  stringheader, []),
-     pack(2, optional,
-	  with_default(Record#messagebody.value, none), string,
-	  []),
-     pack(3, repeated,
-	  with_default(Record#messagebody.bodys, none),
-	  messagebody, [])];
+    [pack(1,
+          repeated,
+          with_default(Record#messagebody.headers, none),
+          stringheader,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#messagebody.value, none),
+          string,
+          []),
+     pack(3,
+          repeated,
+          with_default(Record#messagebody.bodys, none),
+          messagebody,
+          [])];
 iolist(iqmessage, Record) ->
-    [pack(1, optional,
-	  with_default(Record#iqmessage.namespace, none), string,
-	  []),
-     pack(2, optional,
-	  with_default(Record#iqmessage.key, none), string, []),
-     pack(3, optional,
-	  with_default(Record#iqmessage.value, none), string, []),
-     pack(4, optional,
-	  with_default(Record#iqmessage.messageid, none), string,
-	  []),
-     pack(5, optional,
-	  with_default(Record#iqmessage.header, none),
-	  stringheader, []),
-     pack(6, optional,
-	  with_default(Record#iqmessage.body, none), messagebody,
-	  []),
-     pack(7, optional,
-	  with_default(Record#iqmessage.receivedtime, none),
-	  int64, []),
-     pack(8, optional,
-	  with_default(Record#iqmessage.transfertime, none),
-	  int64, []),
-     pack(9, repeated,
-	  with_default(Record#iqmessage.headers, none),
-	  stringheader, []),
-     pack(10, repeated,
-	  with_default(Record#iqmessage.bodys, none), messagebody,
-	  []),
-     pack(11, optional,
-	  with_default(Record#iqmessage.definedkey, none),
-	  iqmessagekeytype, [])];
+    [pack(1,
+          optional,
+          with_default(Record#iqmessage.namespace, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#iqmessage.key, none),
+          string,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#iqmessage.value, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#iqmessage.messageid, none),
+          string,
+          []),
+     pack(5,
+          optional,
+          with_default(Record#iqmessage.header, none),
+          stringheader,
+          []),
+     pack(6,
+          optional,
+          with_default(Record#iqmessage.body, none),
+          messagebody,
+          []),
+     pack(7,
+          optional,
+          with_default(Record#iqmessage.receivedtime, none),
+          int64,
+          []),
+     pack(8,
+          optional,
+          with_default(Record#iqmessage.transfertime, none),
+          int64,
+          []),
+     pack(9,
+          repeated,
+          with_default(Record#iqmessage.headers, none),
+          stringheader,
+          []),
+     pack(10,
+          repeated,
+          with_default(Record#iqmessage.bodys, none),
+          messagebody,
+          []),
+     pack(11,
+          optional,
+          with_default(Record#iqmessage.definedkey, none),
+          iqmessagekeytype,
+          [])];
 iolist(presencemessage, Record) ->
-    [pack(1, optional,
-	  with_default(Record#presencemessage.namespace, none),
-	  string, []),
-     pack(2, optional,
-	  with_default(Record#presencemessage.key, none), string,
-	  []),
-     pack(3, optional,
-	  with_default(Record#presencemessage.value, none),
-	  string, []),
-     pack(4, optional,
-	  with_default(Record#presencemessage.messageid, none),
-	  string, []),
-     pack(5, optional,
-	  with_default(Record#presencemessage.header, none),
-	  stringheader, []),
-     pack(6, optional,
-	  with_default(Record#presencemessage.body, none),
-	  messagebody, []),
-     pack(7, optional,
-	  with_default(Record#presencemessage.receivedtime, none),
-	  int64, []),
-     pack(8, optional,
-	  with_default(Record#presencemessage.transfertime, none),
-	  int64, []),
-     pack(9, repeated,
-	  with_default(Record#presencemessage.headers, none),
-	  stringheader, []),
-     pack(10, repeated,
-	  with_default(Record#presencemessage.bodys, none),
-	  messagebody, []),
-     pack(11, optional,
-	  with_default(Record#presencemessage.definedkey, none),
-	  presencekeytype, []),
-     pack(12, optional,
-	  with_default(Record#presencemessage.categorytype, none),
-	  int32, [])];
+    [pack(1,
+          optional,
+          with_default(Record#presencemessage.namespace, none),
+          string,
+          []),
+     pack(2,
+          optional,
+          with_default(Record#presencemessage.key, none),
+          string,
+          []),
+     pack(3,
+          optional,
+          with_default(Record#presencemessage.value, none),
+          string,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#presencemessage.messageid, none),
+          string,
+          []),
+     pack(5,
+          optional,
+          with_default(Record#presencemessage.header, none),
+          stringheader,
+          []),
+     pack(6,
+          optional,
+          with_default(Record#presencemessage.body, none),
+          messagebody,
+          []),
+     pack(7,
+          optional,
+          with_default(Record#presencemessage.receivedtime, none),
+          int64,
+          []),
+     pack(8,
+          optional,
+          with_default(Record#presencemessage.transfertime, none),
+          int64,
+          []),
+     pack(9,
+          repeated,
+          with_default(Record#presencemessage.headers, none),
+          stringheader,
+          []),
+     pack(10,
+          repeated,
+          with_default(Record#presencemessage.bodys, none),
+          messagebody,
+          []),
+     pack(11,
+          optional,
+          with_default(Record#presencemessage.definedkey, none),
+          presencekeytype,
+          []),
+     pack(12,
+          optional,
+          with_default(Record#presencemessage.categorytype, none),
+          int32,
+          [])];
 iolist(xmppmessage, Record) ->
-    [pack(1, required,
-	  with_default(Record#xmppmessage.messagetype, none),
-	  int32, []),
-     pack(2, required,
-	  with_default(Record#xmppmessage.clienttype, none),
-	  int32, []),
-     pack(3, required,
-	  with_default(Record#xmppmessage.clientversion, none),
-	  int64, []),
-     pack(4, optional,
-	  with_default(Record#xmppmessage.namespace, none),
-	  string, []),
-     pack(5, optional,
-	  with_default(Record#xmppmessage.key, none), string, []),
-     pack(6, optional,
-	  with_default(Record#xmppmessage.value, none), string,
-	  []),
-     pack(7, optional,
-	  with_default(Record#xmppmessage.messageid, none),
-	  string, []),
-     pack(8, optional,
-	  with_default(Record#xmppmessage.header, none),
-	  stringheader, []),
-     pack(9, optional,
-	  with_default(Record#xmppmessage.body, none),
-	  messagebody, []),
-     pack(10, optional,
-	  with_default(Record#xmppmessage.receivedtime, none),
-	  int64, []),
-     pack(11, optional,
-	  with_default(Record#xmppmessage.transfertime, none),
-	  int64, []),
-     pack(12, repeated,
-	  with_default(Record#xmppmessage.headers, none),
-	  stringheader, []),
-     pack(13, repeated,
-	  with_default(Record#xmppmessage.bodys, none),
-	  messagebody, [])].
+    [pack(1,
+          required,
+          with_default(Record#xmppmessage.messagetype, none),
+          int32,
+          []),
+     pack(2,
+          required,
+          with_default(Record#xmppmessage.clienttype, none),
+          int32,
+          []),
+     pack(3,
+          required,
+          with_default(Record#xmppmessage.clientversion, none),
+          int64,
+          []),
+     pack(4,
+          optional,
+          with_default(Record#xmppmessage.namespace, none),
+          string,
+          []),
+     pack(5,
+          optional,
+          with_default(Record#xmppmessage.key, none),
+          string,
+          []),
+     pack(6,
+          optional,
+          with_default(Record#xmppmessage.value, none),
+          string,
+          []),
+     pack(7,
+          optional,
+          with_default(Record#xmppmessage.messageid, none),
+          string,
+          []),
+     pack(8,
+          optional,
+          with_default(Record#xmppmessage.header, none),
+          stringheader,
+          []),
+     pack(9,
+          optional,
+          with_default(Record#xmppmessage.body, none),
+          messagebody,
+          []),
+     pack(10,
+          optional,
+          with_default(Record#xmppmessage.receivedtime, none),
+          int64,
+          []),
+     pack(11,
+          optional,
+          with_default(Record#xmppmessage.transfertime, none),
+          int64,
+          []),
+     pack(12,
+          repeated,
+          with_default(Record#xmppmessage.headers, none),
+          stringheader,
+          []),
+     pack(13,
+          repeated,
+          with_default(Record#xmppmessage.bodys, none),
+          messagebody,
+          [])].
 
 with_default(Default, Default) -> undefined;
 with_default(Val, _) -> Val.
@@ -614,11 +867,14 @@ pack(_, repeated_packed, undefined, _, _) -> [];
 pack(_, repeated_packed, [], _, _) -> [];
 pack(FNum, required, undefined, Type, _) ->
     exit({error,
-	  {required_field_is_undefined, FNum, Type}});
+          {required_field_is_undefined, FNum, Type}});
 pack(_, repeated, [], _, Acc) -> lists:reverse(Acc);
 pack(FNum, repeated, [Head | Tail], Type, Acc) ->
-    pack(FNum, repeated, Tail, Type,
-	 [pack(FNum, optional, Head, Type, []) | Acc]);
+    pack(FNum,
+         repeated,
+         Tail,
+         Type,
+         [pack(FNum, optional, Head, Type, []) | Acc]);
 pack(FNum, repeated_packed, Data, Type, _) ->
     protobuffs:encode_packed(FNum, Data, Type);
 pack(FNum, _, Data, _, _) when is_tuple(Data) ->
@@ -626,20 +882,20 @@ pack(FNum, _, Data, _, _) when is_tuple(Data) ->
     protobuffs:encode(FNum, encode(RecName, Data), bytes);
 pack(FNum, _, Data, Type, _)
     when Type =:= bool;
-	 Type =:= int32;
-	 Type =:= uint32;
-	 Type =:= int64;
-	 Type =:= uint64;
-	 Type =:= sint32;
-	 Type =:= sint64;
-	 Type =:= fixed32;
-	 Type =:= sfixed32;
-	 Type =:= fixed64;
-	 Type =:= sfixed64;
-	 Type =:= string;
-	 Type =:= bytes;
-	 Type =:= float;
-	 Type =:= double ->
+         Type =:= int32;
+         Type =:= uint32;
+         Type =:= int64;
+         Type =:= uint64;
+         Type =:= sint32;
+         Type =:= sint64;
+         Type =:= fixed32;
+         Type =:= sfixed32;
+         Type =:= fixed64;
+         Type =:= sfixed64;
+         Type =:= string;
+         Type =:= bytes;
+         Type =:= float;
+         Type =:= double ->
     protobuffs:encode(FNum, Data, Type);
 pack(FNum, _, Data, Type, _) when is_atom(Data) ->
     protobuffs:encode(FNum, enum_to_int(Type, Data), enum).
@@ -648,21 +904,39 @@ enum_to_int(presencekeytype, 'PresenceKeyError') -> 8;
 enum_to_int(presencekeytype, 'PresenceKeyNotify') -> 7;
 enum_to_int(presencekeytype, 'PresenceKeyResult') -> 6;
 enum_to_int(presencekeytype,
-	    'PresenceKeyManualAuthenticationConfirm') ->
+            'PresenceKeyManualAuthenticationConfirm') ->
     3;
 enum_to_int(presencekeytype,
-	    'PresenceKeyVerifyFriend') ->
+            'PresenceKeyVerifyFriend') ->
     2;
 enum_to_int(presencekeytype, 'PresenceKeyPriority') ->
     1;
+enum_to_int(categorytype, 'CategoryDiscoverUnread') ->
+    16;
 enum_to_int(categorytype,
-	    'CategorySpecifyNotification') ->
+            'CategoryMedalUserStatusListSync') ->
+    15;
+enum_to_int(categorytype, 'CategoryMedalListSync') ->
+    14;
+enum_to_int(categorytype, 'CategoryHotLineSync') -> 13;
+enum_to_int(categorytype, 'CategoryWorkWorldNotice') ->
+    12;
+enum_to_int(categorytype,
+            'CategorySpecifyNotification') ->
     99;
 enum_to_int(categorytype,
-	    'CategoryGlobalNotification') ->
+            'CategoryGlobalNotification') ->
     98;
 enum_to_int(categorytype, 'CategoryTickUser') -> 100;
+enum_to_int(categorytype,
+            'CategoryClientSpecialNotice') ->
+    11;
 enum_to_int(categorytype, 'CategoryAskLog') -> 10;
+enum_to_int(categorytype, 'CategoryOnlineClientSync') ->
+    9;
+enum_to_int(categorytype, 'CategoryCalendarSync') -> 8;
+enum_to_int(categorytype, 'CategoryMsgNotify') -> 7;
+enum_to_int(categorytype, 'CategoryConfigSync') -> 6;
 enum_to_int(categorytype, 'CategoryOPSNotification') ->
     4;
 enum_to_int(categorytype, 'CategoryNavigation') -> 3;
@@ -670,13 +944,22 @@ enum_to_int(categorytype, 'CategorySessionList') -> 2;
 enum_to_int(categorytype, 'CategoryOrganizational') ->
     1;
 enum_to_int(streamendcode,
-	    'StreamEndCodeNoReloginBase') ->
+            'StreamEndCodeNoReloginBase') ->
     200;
 enum_to_int(streamendcode,
-	    'StreamEndCodeReloginFromNav') ->
+            'StreamEndCodeSystemShutdown') ->
+    111;
+enum_to_int(streamendcode,
+            'StreamEndCodeReloginFromNav') ->
     101;
 enum_to_int(streamendcode,
-	    'StreamEndCodeReloginBase') ->
+            'StreamEndCodeReloginBase') ->
+    100;
+enum_to_int(iqmessagekeytype,
+            'IQKeySetForbiddenWords') ->
+    101;
+enum_to_int(iqmessagekeytype,
+            'IQKeyGetForbiddenWords') ->
     100;
 enum_to_int(iqmessagekeytype, 'IQKeySessionEvent') ->
     99;
@@ -704,28 +987,29 @@ enum_to_int(iqmessagekeytype, 'IQKeyGetUserMask') -> 22;
 enum_to_int(iqmessagekeytype, 'IQKeyGetUserKey') -> 20;
 enum_to_int(iqmessagekeytype, 'IQKeyDelUserFriend') ->
     18;
+enum_to_int(iqmessagekeytype, 'IQKeyGetRequest') -> 17;
 enum_to_int(iqmessagekeytype, 'IQKeyGetUserFriend') ->
     16;
 enum_to_int(iqmessagekeytype,
-	    'IQKeyGetUserSubScribeV2') ->
+            'IQKeyGetUserSubScribeV2') ->
     14;
 enum_to_int(iqmessagekeytype,
-	    'IQKeySetUserSubScribeV2') ->
+            'IQKeySetUserSubScribeV2') ->
     13;
 enum_to_int(iqmessagekeytype,
-	    'IQKeySetVerifyFriendOpt') ->
+            'IQKeySetVerifyFriendOpt') ->
     12;
 enum_to_int(iqmessagekeytype,
-	    'IQKeyGetVerifyFriendOpt') ->
+            'IQKeyGetVerifyFriendOpt') ->
     11;
 enum_to_int(iqmessagekeytype,
-	    'IQKeyGetUserSubScribe') ->
+            'IQKeyGetUserSubScribe') ->
     10;
 enum_to_int(iqmessagekeytype,
-	    'IQKeyDelUserSubscribe') ->
+            'IQKeyDelUserSubscribe') ->
     9;
 enum_to_int(iqmessagekeytype,
-	    'IQKeyAddUserSubscribe') ->
+            'IQKeyAddUserSubscribe') ->
     8;
 enum_to_int(iqmessagekeytype, 'IQKeyDelMucUser') -> 7;
 enum_to_int(iqmessagekeytype, 'IQKeySetMucUser') -> 6;
@@ -734,140 +1018,147 @@ enum_to_int(iqmessagekeytype, 'IQKeyMucInviteV2') -> 4;
 enum_to_int(iqmessagekeytype, 'IQKeyMucCreateV2') -> 3;
 enum_to_int(iqmessagekeytype, 'IQKeyMucCreate') -> 2;
 enum_to_int(iqmessagekeytype, 'IQKeyBind') -> 1;
+enum_to_int(stringheadertype, 'StringForbiddenWords') ->
+    78;
 enum_to_int(stringheadertype, 'StringHeaderTypeMode') ->
     76;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeCarbon') ->
+            'StringHeaderTypeCarbon') ->
     72;
 enum_to_int(stringheadertype, 'StringHeaderTypeKey') ->
     70;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeMaskedUuser') ->
+            'StringHeaderTypeMaskedUuser') ->
     68;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeValue') ->
+            'StringHeaderTypeValue') ->
     66;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeFriends') ->
+            'StringHeaderTypeFriends') ->
     64;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeAnswer') ->
+            'StringHeaderTypeAnswer') ->
     62;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeQuestion') ->
+            'StringHeaderTypeQuestion') ->
     60;
 enum_to_int(stringheadertype, 'StringHeaderTypeHost') ->
     58;
 enum_to_int(stringheadertype, 'StringHeaderTypeName') ->
     56;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeKeyValue') ->
+            'StringHeaderTypeKeyValue') ->
     54;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeTimeValue') ->
+            'StringHeaderTypeTimeValue') ->
     52;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeCdata') ->
+            'StringHeaderTypeCdata') ->
     50;
 enum_to_int(stringheadertype, 'StringHeaderTypeCode') ->
     42;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeStatus') ->
+            'StringHeaderTypeStatus') ->
     40;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeDomain') ->
+            'StringHeaderTypeDomain') ->
     38;
 enum_to_int(stringheadertype, 'StringHeaderTypeRole') ->
     36;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeReason') ->
+            'StringHeaderTypeReason') ->
     34;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeResult') ->
+            'StringHeaderTypeResult') ->
     32;
 enum_to_int(stringheadertype, 'StringHeaderTypeType') ->
     30;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeAffiliation') ->
+            'StringHeaderTypeAffiliation') ->
     28;
 enum_to_int(stringheadertype, 'StringHeaderTypeBody') ->
     24;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeMethod') ->
+            'StringHeaderTypeMethod') ->
     22;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeVersion') ->
+            'StringHeaderTypeVersion') ->
     20;
 enum_to_int(stringheadertype, 'StringHeaderTypePic') ->
     18;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeTitle') ->
+            'StringHeaderTypeTitle') ->
     16;
 enum_to_int(stringheadertype, 'StringHeaderTypeNick') ->
     12;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeDeleleJid') ->
+            'StringHeaderTypeDeleleJid') ->
     10;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeInviteJid') ->
+            'StringHeaderTypeInviteJid') ->
     9;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeRealJid') ->
+            'StringHeaderTypeRealJid') ->
     8;
 enum_to_int(stringheadertype, 'StringHeaderTypeJid') ->
     7;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeReadType') ->
+            'StringHeaderTypeReadType') ->
     5;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeBackupInfo') ->
+            'StringHeaderTypeBackupInfo') ->
     4;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeExtendInfo') ->
+            'StringHeaderTypeExtendInfo') ->
     3;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeChannelId') ->
+            'StringHeaderTypeChannelId') ->
     2;
 enum_to_int(stringheadertype,
-	    'StringHeaderTypeChatId') ->
+            'StringHeaderTypeChatId') ->
     1;
-enum_to_int(messagetype,
-	    'MessageTypeTransChatToCustomerService_Feedback') ->
-    1004;
-enum_to_int(messagetype,
-	    'MessageTypeTransChatToCustomerService') ->
-    1002;
-enum_to_int(messagetype,
-	    'MessageTypeTransChatToCustomer_Feedback') ->
-    1003;
-enum_to_int(messagetype,
-	    'MessageTypeTransChatToCustomer') ->
-    1001;
-enum_to_int(messagetype, 'MessageTypeEncrypt') -> 404;
 enum_to_int(messagetype, 'MediaTypeSystemLY') ->
     268435457;
 enum_to_int(messagetype, 'MessageTypeSystem') ->
     268435456;
-enum_to_int(messagetype, 'MessageTypeMarkdown') -> 13;
+enum_to_int(messagetype, 'MessageTypeNotice') ->
+    134217728;
+enum_to_int(messagetype, 'WebRTC_MsgType_Audio') ->
+    131072;
 enum_to_int(messagetype,
-	    'WebRTC_MsgType_VideoMeeting') ->
-    5001;
+            'MessageTypeCommonServiceCard') ->
+    65551;
+enum_to_int(messagetype, 'MessageTypeFlightRemind') ->
+    65550;
 enum_to_int(messagetype,
-	    'MessageTypeRobotTurnToUser') ->
+            'MessageTypeRobotQuestionListNew') ->
+    65538;
+enum_to_int(messagetype,
+            'MessageTypeRobotTurnToUser') ->
     65537;
 enum_to_int(messagetype,
-	    'MessageTypeRobotQuestionList') ->
+            'MessageTypeRobotQuestionList') ->
     65536;
 enum_to_int(messagetype, 'WebRTC_MsgType_Video') ->
     65535;
+enum_to_int(messagetype,
+            'WebRTC_MsgType_Video_Group') ->
+    65534;
+enum_to_int(messagetype, 'WebRTC_MsgType_AudioCall') ->
+    65506;
+enum_to_int(messagetype, 'WebRTC_MsgType_VideoCall') ->
+    65505;
 enum_to_int(messagetype, 'WebRTC_MsgType_Live') ->
     65501;
-enum_to_int(messagetype, 'WebRTC_MsgType_Audio') ->
-    131072;
-enum_to_int(messagetype, 'MessageTypeNotice') ->
-    134217728;
+enum_to_int(messagetype, 'MessageTypeCustomize') ->
+    10082;
+enum_to_int(messagetype, 'MessageTypeTransNormal') ->
+    10081;
 enum_to_int(messagetype, 'MessageTypeShareLocation') ->
     8192;
+enum_to_int(messagetype,
+            'WebRTC_MsgType_VideoMeeting') ->
+    5001;
 enum_to_int(messagetype, 'MessageTypeProduct') -> 4096;
 enum_to_int(messagetype, 'MessageTypeMicroTourGuide') ->
     3001;
@@ -884,13 +1175,31 @@ enum_to_int(messagetype, 'MessageTypeAAInfo') -> 1025;
 enum_to_int(messagetype, 'MessageTypeRedPackInfo') ->
     1024;
 enum_to_int(messagetype,
-	    'MessageTypeCommonProductInfo') ->
+            'MessageTypeTransChatToCustomerService_Feedback') ->
+    1004;
+enum_to_int(messagetype,
+            'MessageTypeTransChatToCustomerService') ->
+    1002;
+enum_to_int(messagetype,
+            'MessageTypeTransChatToCustomer_Feedback') ->
+    1003;
+enum_to_int(messagetype,
+            'MessageTypeTransChatToCustomer') ->
+    1001;
+enum_to_int(messagetype,
+            'MessageTypeCommonProductInfo') ->
     888;
 enum_to_int(messagetype, 'MessageTypeCommonTrdInfo') ->
     666;
 enum_to_int(messagetype, 'MessageTypeAA') -> 513;
 enum_to_int(messagetype, 'MessageTypeRedPack') -> 512;
 enum_to_int(messagetype, 'MessageTypeActivity') -> 511;
+enum_to_int(messagetype, 'MessageTypeEncrypt') -> 404;
+enum_to_int(messagetype, 'MessageTypeMedalRemind') ->
+    259;
+enum_to_int(messagetype,
+            'MessageTypeWorkWorldAtRemind') ->
+    258;
 enum_to_int(messagetype, 'MessageTypeMeetingRemind') ->
     257;
 enum_to_int(messagetype, 'MessageTypeCardShare') -> 256;
@@ -898,6 +1207,8 @@ enum_to_int(messagetype, 'MessageTypeBurnAfterRead') ->
     128;
 enum_to_int(messagetype, 'MessageTypeTime') -> 101;
 enum_to_int(messagetype, 'MessageTypeSourceCode') -> 64;
+enum_to_int(messagetype, 'MessageTypeRobotAnswer') ->
+    47;
 enum_to_int(messagetype, 'MessageTypeSmallVideo') -> 32;
 enum_to_int(messagetype, 'MessageTypeImageNew') -> 30;
 enum_to_int(messagetype, 'MessageTypeWebRTCVidio') ->
@@ -907,6 +1218,8 @@ enum_to_int(messagetype, 'MessageTypeWebRTCAudio') ->
 enum_to_int(messagetype, 'MessageTypeLocalShare') -> 16;
 enum_to_int(messagetype, 'MessageTypeGroupNotify') ->
     15;
+enum_to_int(messagetype, 'MessageTypeExtText') -> 14;
+enum_to_int(messagetype, 'MessageTypeMarkdown') -> 13;
 enum_to_int(messagetype, 'MessageTypeGroupAt') -> 12;
 enum_to_int(messagetype, 'MessageTypeNote') -> 11;
 enum_to_int(messagetype, 'MessageTypeShock') -> 10;
@@ -916,10 +1229,12 @@ enum_to_int(messagetype, 'MessageTypeActionRichText') ->
 enum_to_int(messagetype, 'MessageTypeRichText') -> 7;
 enum_to_int(messagetype, 'MessageTypeTopic') -> 6;
 enum_to_int(messagetype, 'MessageTypeFile') -> 5;
-enum_to_int(messagetype, 'MessageTypeSogouIcon') -> 4;
+enum_to_int(messagetype, 'MessageTypePhotoBigIm') -> 4;
 enum_to_int(messagetype, 'MessageTypePhoto') -> 3;
 enum_to_int(messagetype, 'MessageTypeVoice') -> 2;
 enum_to_int(messagetype, 'MessageTypeText') -> 1;
+enum_to_int(messagetype, 'MessageTypeConsultRevoke') ->
+    -2;
 enum_to_int(messagetype, 'MessageTypeRevoke') -> -1;
 enum_to_int(messagetype, 'MessageTypePNote') -> -11;
 enum_to_int(clienttype, 'ClientTypeWeb') -> 6;
@@ -928,6 +1243,8 @@ enum_to_int(clienttype, 'ClientTypeAndroid') -> 4;
 enum_to_int(clienttype, 'ClientTypePC') -> 3;
 enum_to_int(clienttype, 'ClientTypeiOS') -> 2;
 enum_to_int(clienttype, 'ClientTypeMac') -> 1;
+enum_to_int(signaltype, 'SignalTypeCustomize') -> 142;
+enum_to_int(signaltype, 'SignalTypeTrans') -> 141;
 enum_to_int(signaltype, 'SignalTypeCollection') -> 140;
 enum_to_int(signaltype, 'SignalTypeEncryption') -> 136;
 enum_to_int(signaltype, 'SignalTypeConsult') -> 132;
@@ -959,7 +1276,7 @@ enum_to_int(signaltype, 'SignalTypeChat') -> 6;
 enum_to_int(signaltype, 'SignalTypeFailureResponse') ->
     5;
 enum_to_int(signaltype,
-	    'SignalTypeSucceededResponse') ->
+            'SignalTypeSucceededResponse') ->
     4;
 enum_to_int(signaltype, 'SignalTypeIQResponse') -> 3;
 enum_to_int(signaltype, 'SignalTypeIQ') -> 2;
@@ -974,12 +1291,28 @@ int_to_enum(presencekeytype, 2) ->
     'PresenceKeyVerifyFriend';
 int_to_enum(presencekeytype, 1) ->
     'PresenceKeyPriority';
+int_to_enum(categorytype, 16) ->
+    'CategoryDiscoverUnread';
+int_to_enum(categorytype, 15) ->
+    'CategoryMedalUserStatusListSync';
+int_to_enum(categorytype, 14) ->
+    'CategoryMedalListSync';
+int_to_enum(categorytype, 13) -> 'CategoryHotLineSync';
+int_to_enum(categorytype, 12) ->
+    'CategoryWorkWorldNotice';
 int_to_enum(categorytype, 99) ->
     'CategorySpecifyNotification';
 int_to_enum(categorytype, 98) ->
     'CategoryGlobalNotification';
 int_to_enum(categorytype, 100) -> 'CategoryTickUser';
+int_to_enum(categorytype, 11) ->
+    'CategoryClientSpecialNotice';
 int_to_enum(categorytype, 10) -> 'CategoryAskLog';
+int_to_enum(categorytype, 9) ->
+    'CategoryOnlineClientSync';
+int_to_enum(categorytype, 8) -> 'CategoryCalendarSync';
+int_to_enum(categorytype, 7) -> 'CategoryMsgNotify';
+int_to_enum(categorytype, 6) -> 'CategoryConfigSync';
 int_to_enum(categorytype, 4) ->
     'CategoryOPSNotification';
 int_to_enum(categorytype, 3) -> 'CategoryNavigation';
@@ -988,10 +1321,16 @@ int_to_enum(categorytype, 1) ->
     'CategoryOrganizational';
 int_to_enum(streamendcode, 200) ->
     'StreamEndCodeNoReloginBase';
+int_to_enum(streamendcode, 111) ->
+    'StreamEndCodeSystemShutdown';
 int_to_enum(streamendcode, 101) ->
     'StreamEndCodeReloginFromNav';
 int_to_enum(streamendcode, 100) ->
     'StreamEndCodeReloginBase';
+int_to_enum(iqmessagekeytype, 101) ->
+    'IQKeySetForbiddenWords';
+int_to_enum(iqmessagekeytype, 100) ->
+    'IQKeyGetForbiddenWords';
 int_to_enum(iqmessagekeytype, 99) ->
     'IQKeySessionEvent';
 int_to_enum(iqmessagekeytype, 98) -> 'IQKeyEndSession';
@@ -1018,6 +1357,7 @@ int_to_enum(iqmessagekeytype, 22) -> 'IQKeyGetUserMask';
 int_to_enum(iqmessagekeytype, 20) -> 'IQKeyGetUserKey';
 int_to_enum(iqmessagekeytype, 18) ->
     'IQKeyDelUserFriend';
+int_to_enum(iqmessagekeytype, 17) -> 'IQKeyGetRequest';
 int_to_enum(iqmessagekeytype, 16) ->
     'IQKeyGetUserFriend';
 int_to_enum(iqmessagekeytype, 14) ->
@@ -1041,6 +1381,8 @@ int_to_enum(iqmessagekeytype, 4) -> 'IQKeyMucInviteV2';
 int_to_enum(iqmessagekeytype, 3) -> 'IQKeyMucCreateV2';
 int_to_enum(iqmessagekeytype, 2) -> 'IQKeyMucCreate';
 int_to_enum(iqmessagekeytype, 1) -> 'IQKeyBind';
+int_to_enum(stringheadertype, 78) ->
+    'StringForbiddenWords';
 int_to_enum(stringheadertype, 76) ->
     'StringHeaderTypeMode';
 int_to_enum(stringheadertype, 72) ->
@@ -1113,36 +1455,42 @@ int_to_enum(stringheadertype, 2) ->
     'StringHeaderTypeChannelId';
 int_to_enum(stringheadertype, 1) ->
     'StringHeaderTypeChatId';
-int_to_enum(messagetype, 1004) ->
-    'MessageTypeTransChatToCustomerService_Feedback';
-int_to_enum(messagetype, 1002) ->
-    'MessageTypeTransChatToCustomerService';
-int_to_enum(messagetype, 1003) ->
-    'MessageTypeTransChatToCustomer_Feedback';
-int_to_enum(messagetype, 1001) ->
-    'MessageTypeTransChatToCustomer';
-int_to_enum(messagetype, 404) -> 'MessageTypeEncrypt';
 int_to_enum(messagetype, 268435457) ->
     'MediaTypeSystemLY';
 int_to_enum(messagetype, 268435456) ->
     'MessageTypeSystem';
-int_to_enum(messagetype, 13) -> 'MessageTypeMarkdown';
-int_to_enum(messagetype, 5001) ->
-    'WebRTC_MsgType_VideoMeeting';
+int_to_enum(messagetype, 134217728) ->
+    'MessageTypeNotice';
+int_to_enum(messagetype, 131072) ->
+    'WebRTC_MsgType_Audio';
+int_to_enum(messagetype, 65551) ->
+    'MessageTypeCommonServiceCard';
+int_to_enum(messagetype, 65550) ->
+    'MessageTypeFlightRemind';
+int_to_enum(messagetype, 65538) ->
+    'MessageTypeRobotQuestionListNew';
 int_to_enum(messagetype, 65537) ->
     'MessageTypeRobotTurnToUser';
 int_to_enum(messagetype, 65536) ->
     'MessageTypeRobotQuestionList';
 int_to_enum(messagetype, 65535) ->
     'WebRTC_MsgType_Video';
+int_to_enum(messagetype, 65534) ->
+    'WebRTC_MsgType_Video_Group';
+int_to_enum(messagetype, 65506) ->
+    'WebRTC_MsgType_AudioCall';
+int_to_enum(messagetype, 65505) ->
+    'WebRTC_MsgType_VideoCall';
 int_to_enum(messagetype, 65501) ->
     'WebRTC_MsgType_Live';
-int_to_enum(messagetype, 131072) ->
-    'WebRTC_MsgType_Audio';
-int_to_enum(messagetype, 134217728) ->
-    'MessageTypeNotice';
+int_to_enum(messagetype, 10082) ->
+    'MessageTypeCustomize';
+int_to_enum(messagetype, 10081) ->
+    'MessageTypeTransNormal';
 int_to_enum(messagetype, 8192) ->
     'MessageTypeShareLocation';
+int_to_enum(messagetype, 5001) ->
+    'WebRTC_MsgType_VideoMeeting';
 int_to_enum(messagetype, 4096) -> 'MessageTypeProduct';
 int_to_enum(messagetype, 3001) ->
     'MessageTypeMicroTourGuide';
@@ -1158,6 +1506,14 @@ int_to_enum(messagetype, 2001) -> 'MessageTypeConsult';
 int_to_enum(messagetype, 1025) -> 'MessageTypeAAInfo';
 int_to_enum(messagetype, 1024) ->
     'MessageTypeRedPackInfo';
+int_to_enum(messagetype, 1004) ->
+    'MessageTypeTransChatToCustomerService_Feedback';
+int_to_enum(messagetype, 1002) ->
+    'MessageTypeTransChatToCustomerService';
+int_to_enum(messagetype, 1003) ->
+    'MessageTypeTransChatToCustomer_Feedback';
+int_to_enum(messagetype, 1001) ->
+    'MessageTypeTransChatToCustomer';
 int_to_enum(messagetype, 888) ->
     'MessageTypeCommonProductInfo';
 int_to_enum(messagetype, 666) ->
@@ -1165,6 +1521,11 @@ int_to_enum(messagetype, 666) ->
 int_to_enum(messagetype, 513) -> 'MessageTypeAA';
 int_to_enum(messagetype, 512) -> 'MessageTypeRedPack';
 int_to_enum(messagetype, 511) -> 'MessageTypeActivity';
+int_to_enum(messagetype, 404) -> 'MessageTypeEncrypt';
+int_to_enum(messagetype, 259) ->
+    'MessageTypeMedalRemind';
+int_to_enum(messagetype, 258) ->
+    'MessageTypeWorkWorldAtRemind';
 int_to_enum(messagetype, 257) ->
     'MessageTypeMeetingRemind';
 int_to_enum(messagetype, 256) -> 'MessageTypeCardShare';
@@ -1172,6 +1533,8 @@ int_to_enum(messagetype, 128) ->
     'MessageTypeBurnAfterRead';
 int_to_enum(messagetype, 101) -> 'MessageTypeTime';
 int_to_enum(messagetype, 64) -> 'MessageTypeSourceCode';
+int_to_enum(messagetype, 47) ->
+    'MessageTypeRobotAnswer';
 int_to_enum(messagetype, 32) -> 'MessageTypeSmallVideo';
 int_to_enum(messagetype, 30) -> 'MessageTypeImageNew';
 int_to_enum(messagetype, 21) ->
@@ -1181,6 +1544,8 @@ int_to_enum(messagetype, 20) ->
 int_to_enum(messagetype, 16) -> 'MessageTypeLocalShare';
 int_to_enum(messagetype, 15) ->
     'MessageTypeGroupNotify';
+int_to_enum(messagetype, 14) -> 'MessageTypeExtText';
+int_to_enum(messagetype, 13) -> 'MessageTypeMarkdown';
 int_to_enum(messagetype, 12) -> 'MessageTypeGroupAt';
 int_to_enum(messagetype, 11) -> 'MessageTypeNote';
 int_to_enum(messagetype, 10) -> 'MessageTypeShock';
@@ -1190,10 +1555,12 @@ int_to_enum(messagetype, 8) ->
 int_to_enum(messagetype, 7) -> 'MessageTypeRichText';
 int_to_enum(messagetype, 6) -> 'MessageTypeTopic';
 int_to_enum(messagetype, 5) -> 'MessageTypeFile';
-int_to_enum(messagetype, 4) -> 'MessageTypeSogouIcon';
+int_to_enum(messagetype, 4) -> 'MessageTypePhotoBigIm';
 int_to_enum(messagetype, 3) -> 'MessageTypePhoto';
 int_to_enum(messagetype, 2) -> 'MessageTypeVoice';
 int_to_enum(messagetype, 1) -> 'MessageTypeText';
+int_to_enum(messagetype, -2) ->
+    'MessageTypeConsultRevoke';
 int_to_enum(messagetype, -1) -> 'MessageTypeRevoke';
 int_to_enum(messagetype, -11) -> 'MessageTypePNote';
 int_to_enum(clienttype, 6) -> 'ClientTypeWeb';
@@ -1202,6 +1569,8 @@ int_to_enum(clienttype, 4) -> 'ClientTypeAndroid';
 int_to_enum(clienttype, 3) -> 'ClientTypePC';
 int_to_enum(clienttype, 2) -> 'ClientTypeiOS';
 int_to_enum(clienttype, 1) -> 'ClientTypeMac';
+int_to_enum(signaltype, 142) -> 'SignalTypeCustomize';
+int_to_enum(signaltype, 141) -> 'SignalTypeTrans';
 int_to_enum(signaltype, 140) -> 'SignalTypeCollection';
 int_to_enum(signaltype, 136) -> 'SignalTypeEncryption';
 int_to_enum(signaltype, 132) -> 'SignalTypeConsult';
@@ -1360,14 +1729,14 @@ delimited_decode(_Type, <<>>, Acc) ->
     {lists:reverse(Acc), <<>>};
 delimited_decode(Type, Bytes, Acc) ->
     try protobuffs:decode_varint(Bytes) of
-      {Size, Rest} when size(Rest) < Size ->
-	  {lists:reverse(Acc), Bytes};
-      {Size, Rest} ->
-	  <<MessageBytes:Size/binary, Rest2/binary>> = Rest,
-	  Message = decode(Type, MessageBytes),
-	  delimited_decode(Type, Rest2, [Message | Acc])
+        {Size, Rest} when size(Rest) < Size ->
+            {lists:reverse(Acc), Bytes};
+        {Size, Rest} ->
+            <<MessageBytes:Size/binary, Rest2/binary>> = Rest,
+            Message = decode(Type, MessageBytes),
+            delimited_decode(Type, Rest2, [Message | Acc])
     catch
-      _What:_Why -> {lists:reverse(Acc), Bytes}
+        _What:_Why -> {lists:reverse(Acc), Bytes}
     end.
 
 decode(enummsg_values, 1) -> value1;
@@ -1378,8 +1747,9 @@ decode(messagekeyvalue, Bytes) when is_binary(Bytes) ->
     to_record(messagekeyvalue, Decoded);
 decode(stringheader, Bytes) when is_binary(Bytes) ->
     Types = [{4, definedkey, stringheadertype, []},
-	     {3, value, string, []}, {2, key, string, []},
-	     {1, params, messagekeyvalue, [is_record, repeated]}],
+             {3, value, string, []},
+             {2, key, string, []},
+             {1, params, messagekeyvalue, [is_record, repeated]}],
     Defaults = [{1, params, []}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(stringheader, Decoded);
@@ -1390,29 +1760,35 @@ decode(packagelength, Bytes) when is_binary(Bytes) ->
     to_record(packagelength, Decoded);
 decode(protoheader, Bytes) when is_binary(Bytes) ->
     Types = [{6, message, bytes, []},
-	     {5, content, string, []}, {4, length, int32, []},
-	     {3, optionlist, int32, [repeated]},
-	     {2, options, int32, []}, {1, version, int32, []}],
+             {5, content, string, []},
+             {4, length, int32, []},
+             {3, optionlist, int32, [repeated]},
+             {2, options, int32, []},
+             {1, version, int32, []}],
     Defaults = [{3, optionlist, []}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(protoheader, Decoded);
 decode(authmessage, Bytes) when is_binary(Bytes) ->
     Types = [{5, otherbody, messagebody, [is_record]},
-	     {4, authkey, string, []}, {3, msgid, string, []},
-	     {2, method, string, []}, {1, mechanism, string, []}],
+             {4, authkey, string, []},
+             {3, msgid, string, []},
+             {2, method, string, []},
+             {1, mechanism, string, []}],
     Defaults = [],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(authmessage, Decoded);
 decode(welcomemessage, Bytes) when is_binary(Bytes) ->
     Types = [{4, sockmod, string, []},
-	     {3, user, string, []}, {2, version, string, []},
-	     {1, domain, string, []}],
+             {3, user, string, []},
+             {2, version, string, []},
+             {1, domain, string, []}],
     Defaults = [],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(welcomemessage, Decoded);
 decode(streambegin, Bytes) when is_binary(Bytes) ->
     Types = [{3, bodys, messagebody, [is_record, repeated]},
-	     {2, version, string, []}, {1, domain, string, []}],
+             {2, version, string, []},
+             {1, domain, string, []}],
     Defaults = [{3, bodys, []}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(streambegin, Decoded);
@@ -1433,90 +1809,107 @@ decode(streamend, Bytes) when is_binary(Bytes) ->
     to_record(streamend, Decoded);
 decode(userconnect, Bytes) when is_binary(Bytes) ->
     Types = [{2, version, string, []},
-	     {1, domain, string, []}],
+             {1, domain, string, []}],
     Defaults = [],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(userconnect, Decoded);
 decode(capability, Bytes) when is_binary(Bytes) ->
     Types = [{2, bodys, messagebody, [is_record]},
-	     {1, version, string, []}],
+             {1, version, string, []}],
     Defaults = [],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(capability, Decoded);
 decode(responsesucceeded, Bytes)
     when is_binary(Bytes) ->
     Types = [{4, body, messagebody, [is_record]},
-	     {3, info, string, []}, {2, msgid, string, []},
-	     {1, code, int32, []}],
+             {3, info, string, []},
+             {2, msgid, string, []},
+             {1, code, int32, []}],
     Defaults = [],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(responsesucceeded, Decoded);
 decode(responsefailure, Bytes) when is_binary(Bytes) ->
     Types = [{4, body, messagebody, [is_record]},
-	     {3, error, string, []}, {2, msgid, string, []},
-	     {1, code, int32, []}],
+             {3, error, string, []},
+             {2, msgid, string, []},
+             {1, code, int32, []}],
     Defaults = [],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(responsefailure, Decoded);
 decode(protomessage, Bytes) when is_binary(Bytes) ->
     Types = [{11, sendjid, string, []},
-	     {10, origintype, string, []}, {9, originto, string, []},
-	     {8, originfrom, string, []}, {7, realto, string, []},
-	     {6, realfrom, string, []}, {5, message, bytes, []},
-	     {4, to, string, []}, {3, from, string, []},
-	     {2, signaltype, int32, []}, {1, options, int32, []}],
+             {10, origintype, string, []},
+             {9, originto, string, []},
+             {8, originfrom, string, []},
+             {7, realto, string, []},
+             {6, realfrom, string, []},
+             {5, message, bytes, []},
+             {4, to, string, []},
+             {3, from, string, []},
+             {2, signaltype, int32, []},
+             {1, options, int32, []}],
     Defaults = [{2, signaltype, 0}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(protomessage, Decoded);
 decode(messagebody, Bytes) when is_binary(Bytes) ->
     Types = [{3, bodys, messagebody, [is_record, repeated]},
-	     {2, value, string, []},
-	     {1, headers, stringheader, [is_record, repeated]}],
+             {2, value, string, []},
+             {1, headers, stringheader, [is_record, repeated]}],
     Defaults = [{1, headers, []}, {3, bodys, []}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(messagebody, Decoded);
 decode(iqmessage, Bytes) when is_binary(Bytes) ->
     Types = [{11, definedkey, iqmessagekeytype, []},
-	     {10, bodys, messagebody, [is_record, repeated]},
-	     {9, headers, stringheader, [is_record, repeated]},
-	     {8, transfertime, int64, []},
-	     {7, receivedtime, int64, []},
-	     {6, body, messagebody, [is_record]},
-	     {5, header, stringheader, [is_record]},
-	     {4, messageid, string, []}, {3, value, string, []},
-	     {2, key, string, []}, {1, namespace, string, []}],
+             {10, bodys, messagebody, [is_record, repeated]},
+             {9, headers, stringheader, [is_record, repeated]},
+             {8, transfertime, int64, []},
+             {7, receivedtime, int64, []},
+             {6, body, messagebody, [is_record]},
+             {5, header, stringheader, [is_record]},
+             {4, messageid, string, []},
+             {3, value, string, []},
+             {2, key, string, []},
+             {1, namespace, string, []}],
     Defaults = [{9, headers, []}, {10, bodys, []}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(iqmessage, Decoded);
 decode(presencemessage, Bytes) when is_binary(Bytes) ->
     Types = [{12, categorytype, int32, []},
-	     {11, definedkey, presencekeytype, []},
-	     {10, bodys, messagebody, [is_record, repeated]},
-	     {9, headers, stringheader, [is_record, repeated]},
-	     {8, transfertime, int64, []},
-	     {7, receivedtime, int64, []},
-	     {6, body, messagebody, [is_record]},
-	     {5, header, stringheader, [is_record]},
-	     {4, messageid, string, []}, {3, value, string, []},
-	     {2, key, string, []}, {1, namespace, string, []}],
+             {11, definedkey, presencekeytype, []},
+             {10, bodys, messagebody, [is_record, repeated]},
+             {9, headers, stringheader, [is_record, repeated]},
+             {8, transfertime, int64, []},
+             {7, receivedtime, int64, []},
+             {6, body, messagebody, [is_record]},
+             {5, header, stringheader, [is_record]},
+             {4, messageid, string, []},
+             {3, value, string, []},
+             {2, key, string, []},
+             {1, namespace, string, []}],
     Defaults = [{9, headers, []}, {10, bodys, []}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(presencemessage, Decoded);
 decode(xmppmessage, Bytes) when is_binary(Bytes) ->
-    Types = [{13, bodys, messagebody,
-	      [is_record, repeated]},
-	     {12, headers, stringheader, [is_record, repeated]},
-	     {11, transfertime, int64, []},
-	     {10, receivedtime, int64, []},
-	     {9, body, messagebody, [is_record]},
-	     {8, header, stringheader, [is_record]},
-	     {7, messageid, string, []}, {6, value, string, []},
-	     {5, key, string, []}, {4, namespace, string, []},
-	     {3, clientversion, int64, []},
-	     {2, clienttype, int32, []},
-	     {1, messagetype, int32, []}],
-    Defaults = [{1, messagetype, 0}, {2, clienttype, 0},
-		{12, headers, []}, {13, bodys, []}],
+    Types = [{13,
+              bodys,
+              messagebody,
+              [is_record, repeated]},
+             {12, headers, stringheader, [is_record, repeated]},
+             {11, transfertime, int64, []},
+             {10, receivedtime, int64, []},
+             {9, body, messagebody, [is_record]},
+             {8, header, stringheader, [is_record]},
+             {7, messageid, string, []},
+             {6, value, string, []},
+             {5, key, string, []},
+             {4, namespace, string, []},
+             {3, clientversion, int64, []},
+             {2, clienttype, int32, []},
+             {1, messagetype, int32, []}],
+    Defaults = [{1, messagetype, 0},
+                {2, clienttype, 0},
+                {12, headers, []},
+                {13, bodys, []}],
     Decoded = decode(Bytes, Types, Defaults),
     to_record(xmppmessage, Decoded).
 
@@ -1525,67 +1918,77 @@ decode(<<>>, Types, Acc) ->
 decode(Bytes, Types, Acc) ->
     {ok, FNum} = protobuffs:next_field_num(Bytes),
     case lists:keyfind(FNum, 1, Types) of
-      {FNum, Name, Type, Opts} ->
-	  {Value1, Rest1} = case lists:member(is_record, Opts) of
-			      true ->
-				  {{FNum, V}, R} = protobuffs:decode(Bytes,
-								     bytes),
-				  RecVal = decode(Type, V),
-				  {RecVal, R};
-			      false ->
-				  case lists:member(repeated_packed, Opts) of
-				    true ->
-					{{FNum, V}, R} =
-					    protobuffs:decode_packed(Bytes,
-								     Type),
-					{V, R};
-				    false ->
-					{{FNum, V}, R} =
-					    protobuffs:decode(Bytes, Type),
-					{unpack_value(V, Type), R}
-				  end
-			    end,
-	  case lists:member(repeated, Opts) of
-	    true ->
-		case lists:keytake(FNum, 1, Acc) of
-		  {value, {FNum, Name, List}, Acc1} ->
-		      decode(Rest1, Types,
-			     [{FNum, Name, [int_to_enum(Type, Value1) | List]}
-			      | Acc1]);
-		  false ->
-		      decode(Rest1, Types,
-			     [{FNum, Name, [int_to_enum(Type, Value1)]} | Acc])
-		end;
-	    false ->
-		decode(Rest1, Types,
-		       [{FNum, Name, int_to_enum(Type, Value1)} | Acc])
-	  end;
-      false ->
-	  case lists:keyfind('$extensions', 2, Acc) of
-	    {_, _, Dict} ->
-		{{FNum, _V}, R} = protobuffs:decode(Bytes, bytes),
-		Diff = size(Bytes) - size(R),
-		<<V:Diff/binary, _/binary>> = Bytes,
-		NewDict = dict:store(FNum, V, Dict),
-		NewAcc = lists:keyreplace('$extensions', 2, Acc,
-					  {false, '$extensions', NewDict}),
-		decode(R, Types, NewAcc);
-	    _ ->
-		{ok, Skipped} = protobuffs:skip_next_field(Bytes),
-		decode(Skipped, Types, Acc)
-	  end
+        {FNum, Name, Type, Opts} ->
+            {Value1, Rest1} = case lists:member(is_record, Opts) of
+                                  true ->
+                                      {{FNum, V}, R} = protobuffs:decode(Bytes,
+                                                                         bytes),
+                                      RecVal = decode(Type, V),
+                                      {RecVal, R};
+                                  false ->
+                                      case lists:member(repeated_packed, Opts)
+                                          of
+                                          true ->
+                                              {{FNum, V}, R} =
+                                                  protobuffs:decode_packed(Bytes,
+                                                                           Type),
+                                              {V, R};
+                                          false ->
+                                              {{FNum, V}, R} =
+                                                  protobuffs:decode(Bytes,
+                                                                    Type),
+                                              {unpack_value(V, Type), R}
+                                      end
+                              end,
+            case lists:member(repeated, Opts) of
+                true ->
+                    case lists:keytake(FNum, 1, Acc) of
+                        {value, {FNum, Name, List}, Acc1} ->
+                            decode(Rest1,
+                                   Types,
+                                   [{FNum,
+                                     Name,
+                                     [int_to_enum(Type, Value1) | List]}
+                                    | Acc1]);
+                        false ->
+                            decode(Rest1,
+                                   Types,
+                                   [{FNum, Name, [int_to_enum(Type, Value1)]}
+                                    | Acc])
+                    end;
+                false ->
+                    decode(Rest1,
+                           Types,
+                           [{FNum, Name, int_to_enum(Type, Value1)} | Acc])
+            end;
+        false ->
+            case lists:keyfind('$extensions', 2, Acc) of
+                {_, _, Dict} ->
+                    {{FNum, _V}, R} = protobuffs:decode(Bytes, bytes),
+                    Diff = size(Bytes) - size(R),
+                    <<V:Diff/binary, _/binary>> = Bytes,
+                    NewDict = dict:store(FNum, V, Dict),
+                    NewAcc = lists:keyreplace('$extensions',
+                                              2,
+                                              Acc,
+                                              {false, '$extensions', NewDict}),
+                    decode(R, Types, NewAcc);
+                _ ->
+                    {ok, Skipped} = protobuffs:skip_next_field(Bytes),
+                    decode(Skipped, Types, Acc)
+            end
     end.
 
 reverse_repeated_fields(FieldList, Types) ->
     [begin
-       case lists:keyfind(FNum, 1, Types) of
-	 {FNum, Name, _Type, Opts} ->
-	     case lists:member(repeated, Opts) of
-	       true -> {FNum, Name, lists:reverse(Value)};
-	       _ -> Field
-	     end;
-	 _ -> Field
-       end
+         case lists:keyfind(FNum, 1, Types) of
+             {FNum, Name, _Type, Opts} ->
+                 case lists:member(repeated, Opts) of
+                     true -> {FNum, Name, lists:reverse(Value)};
+                     _ -> Field
+                 end;
+             _ -> Field
+         end
      end
      || {FNum, Name, Value} = Field <- FieldList].
 
@@ -1595,233 +1998,303 @@ unpack_value(Value, _) -> Value.
 
 to_record(messagekeyvalue, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       messagekeyvalue),
-						   Record, Name, Val)
-			  end,
-			  #messagekeyvalue{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               messagekeyvalue),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #messagekeyvalue{},
+                          DecodedTuples),
     Record1;
 to_record(stringheader, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       stringheader),
-						   Record, Name, Val)
-			  end,
-			  #stringheader{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               stringheader),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #stringheader{},
+                          DecodedTuples),
     Record1;
 to_record(packagelength, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       packagelength),
-						   Record, Name, Val)
-			  end,
-			  #packagelength{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               packagelength),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #packagelength{},
+                          DecodedTuples),
     Record1;
 to_record(protoheader, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       protoheader),
-						   Record, Name, Val)
-			  end,
-			  #protoheader{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               protoheader),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #protoheader{},
+                          DecodedTuples),
     Record1;
 to_record(authmessage, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       authmessage),
-						   Record, Name, Val)
-			  end,
-			  #authmessage{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               authmessage),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #authmessage{},
+                          DecodedTuples),
     Record1;
 to_record(welcomemessage, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       welcomemessage),
-						   Record, Name, Val)
-			  end,
-			  #welcomemessage{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               welcomemessage),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #welcomemessage{},
+                          DecodedTuples),
     Record1;
 to_record(streambegin, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       streambegin),
-						   Record, Name, Val)
-			  end,
-			  #streambegin{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               streambegin),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #streambegin{},
+                          DecodedTuples),
     Record1;
 to_record(starttls, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       starttls),
-						   Record, Name, Val)
-			  end,
-			  #starttls{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               starttls),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #starttls{},
+                          DecodedTuples),
     Record1;
 to_record(proceedtls, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       proceedtls),
-						   Record, Name, Val)
-			  end,
-			  #proceedtls{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               proceedtls),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #proceedtls{},
+                          DecodedTuples),
     Record1;
 to_record(streamend, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       streamend),
-						   Record, Name, Val)
-			  end,
-			  #streamend{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               streamend),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #streamend{},
+                          DecodedTuples),
     Record1;
 to_record(userconnect, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       userconnect),
-						   Record, Name, Val)
-			  end,
-			  #userconnect{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               userconnect),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #userconnect{},
+                          DecodedTuples),
     Record1;
 to_record(capability, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       capability),
-						   Record, Name, Val)
-			  end,
-			  #capability{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               capability),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #capability{},
+                          DecodedTuples),
     Record1;
 to_record(responsesucceeded, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       responsesucceeded),
-						   Record, Name, Val)
-			  end,
-			  #responsesucceeded{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               responsesucceeded),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #responsesucceeded{},
+                          DecodedTuples),
     Record1;
 to_record(responsefailure, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       responsefailure),
-						   Record, Name, Val)
-			  end,
-			  #responsefailure{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               responsefailure),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #responsefailure{},
+                          DecodedTuples),
     Record1;
 to_record(protomessage, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       protomessage),
-						   Record, Name, Val)
-			  end,
-			  #protomessage{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               protomessage),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #protomessage{},
+                          DecodedTuples),
     Record1;
 to_record(messagebody, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       messagebody),
-						   Record, Name, Val)
-			  end,
-			  #messagebody{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               messagebody),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #messagebody{},
+                          DecodedTuples),
     Record1;
 to_record(iqmessage, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       iqmessage),
-						   Record, Name, Val)
-			  end,
-			  #iqmessage{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               iqmessage),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #iqmessage{},
+                          DecodedTuples),
     Record1;
 to_record(presencemessage, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       presencemessage),
-						   Record, Name, Val)
-			  end,
-			  #presencemessage{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               presencemessage),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #presencemessage{},
+                          DecodedTuples),
     Record1;
 to_record(xmppmessage, DecodedTuples) ->
     Record1 = lists:foldr(fun ({_FNum, Name, Val},
-			       Record) ->
-				  set_record_field(record_info(fields,
-							       xmppmessage),
-						   Record, Name, Val)
-			  end,
-			  #xmppmessage{}, DecodedTuples),
+                               Record) ->
+                                  set_record_field(record_info(fields,
+                                                               xmppmessage),
+                                                   Record,
+                                                   Name,
+                                                   Val)
+                          end,
+                          #xmppmessage{},
+                          DecodedTuples),
     Record1.
 
 decode_extensions(Record) -> Record.
 
 decode_extensions(_Types, [], Acc) ->
     dict:from_list(Acc);
-decode_extensions(Types, [{Fnum, Bytes} | Tail], Acc) ->
-    NewAcc = case lists:keyfind(Fnum, 1, Types) of
-	       {Fnum, Name, Type, Opts} ->
-		   {Value1, Rest1} = case lists:member(is_record, Opts) of
-				       true ->
-					   {{FNum, V}, R} =
-					       protobuffs:decode(Bytes, bytes),
-					   RecVal = decode(Type, V),
-					   {RecVal, R};
-				       false ->
-					   case lists:member(repeated_packed,
-							     Opts)
-					       of
-					     true ->
-						 {{FNum, V}, R} =
-						     protobuffs:decode_packed(Bytes,
-									      Type),
-						 {V, R};
-					     false ->
-						 {{FNum, V}, R} =
-						     protobuffs:decode(Bytes,
-								       Type),
-						 {unpack_value(V, Type), R}
-					   end
-				     end,
-		   case lists:member(repeated, Opts) of
-		     true ->
-			 case lists:keytake(FNum, 1, Acc) of
-			   {value, {FNum, Name, List}, Acc1} ->
-			       decode(Rest1, Types,
-				      [{FNum, Name,
-					lists:reverse([int_to_enum(Type, Value1)
-						       | lists:reverse(List)])}
-				       | Acc1]);
-			   false ->
-			       decode(Rest1, Types,
-				      [{FNum, Name, [int_to_enum(Type, Value1)]}
-				       | Acc])
-			 end;
-		     false ->
-			 [{Fnum,
-			   {optional, int_to_enum(Type, Value1), Type, Opts}}
-			  | Acc]
-		   end;
-	       false -> [{Fnum, Bytes} | Acc]
-	     end,
+decode_extensions(Types, [{FNum, Bytes} | Tail], Acc) ->
+    NewAcc = case lists:keyfind(FNum, 1, Types) of
+                 {FNum, Name, Type, Opts} ->
+                     {Value1, Rest1} = case lists:member(is_record, Opts) of
+                                           true ->
+                                               {{FNum, V}, R} =
+                                                   protobuffs:decode(Bytes,
+                                                                     bytes),
+                                               RecVal = decode(Type, V),
+                                               {RecVal, R};
+                                           false ->
+                                               case
+                                                   lists:member(repeated_packed,
+                                                                Opts)
+                                                   of
+                                                   true ->
+                                                       {{FNum, V}, R} =
+                                                           protobuffs:decode_packed(Bytes,
+                                                                                    Type),
+                                                       {V, R};
+                                                   false ->
+                                                       {{FNum, V}, R} =
+                                                           protobuffs:decode(Bytes,
+                                                                             Type),
+                                                       {unpack_value(V, Type),
+                                                        R}
+                                               end
+                                       end,
+                     case lists:member(repeated, Opts) of
+                         true ->
+                             case lists:keytake(FNum, 1, Acc) of
+                                 {value, {FNum, Name, List}, Acc1} ->
+                                     decode(Rest1,
+                                            Types,
+                                            [{FNum,
+                                              Name,
+                                              lists:reverse([int_to_enum(Type,
+                                                                         Value1)
+                                                             | lists:reverse(List)])}
+                                             | Acc1]);
+                                 false ->
+                                     decode(Rest1,
+                                            Types,
+                                            [{FNum,
+                                              Name,
+                                              [int_to_enum(Type, Value1)]}
+                                             | Acc])
+                             end;
+                         false ->
+                             [{FNum,
+                               {optional,
+                                int_to_enum(Type, Value1),
+                                Type,
+                                Opts}}
+                              | Acc]
+                     end;
+                 false -> [{FNum, Bytes} | Acc]
+             end,
     decode_extensions(Types, Tail, NewAcc).
 
 set_record_field(Fields, Record, '$extensions',
-		 Value) ->
+                 Value) ->
     Decodable = [],
     NewValue = decode_extensions(element(1, Record),
-				 Decodable, dict:to_list(Value)),
+                                 Decodable,
+                                 dict:to_list(Value)),
     Index = list_index('$extensions', Fields),
     erlang:setelement(Index + 1, Record, NewValue);
 set_record_field(Fields, Record, Field, Value) ->

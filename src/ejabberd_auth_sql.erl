@@ -72,7 +72,7 @@ store_type() ->
 %% @spec (User, AuthzId, Server, Password) -> true | false | {error, Error}
 
 check_password(User, AuthzId, Server, Password) ->
-    do_check_password(check_frozen_flag(),User, AuthzId, Server, Password).
+  do_check_password(check_frozen_flag(),User, AuthzId, Server, Password).
 
 do_check_password(false,_User, _AuthzId, _Server, _Password) ->
     {false, <<"frozen-in">>};

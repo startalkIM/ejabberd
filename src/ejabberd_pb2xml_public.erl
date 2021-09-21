@@ -204,6 +204,7 @@ get_header_definedkey(Key) ->
         'StringHeaderTypeKey' -> <<"key">>;
         'StringHeaderTypeMode' -> <<"mode">>;
         'StringHeaderTypeCarbon' -> <<"carbon_message">>;
+        'StringForbiddenWords' -> <<"forbidden_words">>;
         _ -> 'none'
     end.
 
@@ -243,6 +244,8 @@ get_iqKey_type(Key) ->
         'IQKeyGetVUserRole' -> "GET_VUSER_ROLE";
         'IQKeyStartSession' -> "RUSER_START_SESSION";
         'IQKeyEndSession' -> "RUSER_END_SESSION";
+        'IQKeyGetForbiddenWords' -> "GET_FORBIDDEN_WORDS";
+        'IQKeySetForbiddenWords' -> "SET_FORBIDDEN_WORDS";
         _ -> 'none'
     end.
 

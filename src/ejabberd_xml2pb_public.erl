@@ -131,6 +131,7 @@ set_header_definedkey(Key) ->
         <<"key">> -> 'StringHeaderTypeKey';
         <<"mode">> -> 'StringHeaderTypeMode';
         <<"carbon_message">> -> 'StringHeaderTypeCarbon';
+		<<"forbidden_words">> -> 'StringForbiddenWords';
         _ -> 'none'
     end.
     

@@ -9,6 +9,7 @@
 -export([encode_update_muc_vcard/3,encode_presence_del_muc_user/3,enocde_status/3]).
 -export([encode_verify_friend/3,encode_delete_friend/3,encode_manual_authentication_confirm/3]).
 -export([encode_mask_user/3,encode_cancel_mask_user/3,encode_presence_mask_user/3, encode_set_user_subscribe_v2/3, encode_notify_presence/3]).
+-export([encode_presence_forbidden_words/3]).
 
 
 encode_pb_presence_msg(Key,Val,Msg_ID,Header,Body,Headers,Bodys) ->
@@ -226,6 +227,14 @@ encode_presence_mask_user(From,To,Packet) ->
     Mask ->
         encode_mask_user(From,To,Mask)
     end.
+
+encode_presence_forbidden_words(From,To,Packet) ->
+	case catch fxml:get_attr_s(<<"forbidden_words">>,Packet#xmlel.attrs) of
+	Value when is_binary(Value) ->
+		encode_forbidden_words(From,To,Packet);	
+	_ ->
+		<<"error">>
+	end.		
     
 encode_set_user_subscribe_v2(From,To,Packet) ->
     case fxml:get_subtag(Packet,<<"subscribe_updte">>) of
@@ -246,6 +255,12 @@ encode_mask_user(From,To,Packet) ->
     Headers = [{<<"jid">>,JID}],
     Body = ejabberd_xml2pb_public:encode_messagebody(Headers,<<"mask_user">>),
     struct_pb_presence_msg(From,To,'SignalTypePresence',<<"result">>,<<"mask_user">>,<<"">>,'undefined',Body,[],[]).
+
+encode_forbidden_words(From,To,Packet) ->
+	ForbiddenWords = fxml:get_attr_s(<<"forbidden_words">>,Packet#xmlel.attrs),
+	Headers = [{<<"forbidden_words">>, ForbiddenWords}],
+	Body = ejabberd_xml2pb_public:encode_messagebody(Headers,<<"forbidden_words">>),
+    struct_pb_presence_msg(From,To,'SignalTypePresence',<<"result">>,<<"forbidden_words">>,<<"">>,'undefined',Body,[],[]).
 
 encode_cancel_mask_user(From,To,Packet) ->
     JID = proplists:get_value(<<"jid">>,Packet#xmlel.attrs,<<"">>),

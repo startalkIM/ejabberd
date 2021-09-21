@@ -149,10 +149,9 @@ normal_state({route, From, <<"">>,
     NewTRef = restart_timer(TRef),
     Lang = fxml:get_attr_s(<<"xml:lang">>, Attrs),
     {KeyNew, ReasonNew, StateNew} =
-    case is_user_online_with_no_resource(From, StateData) orelse
+    case (is_user_online_with_no_resource(From, StateData) orelse
 	is_subscriber(From, StateData) orelse
-	is_forbidden_words(From, StateData) orelse
-	is_user_allowed_message_nonparticipant(From, StateData)
+	is_user_allowed_message_nonparticipant(From, StateData)) andalso is_forbidden_words(From, StateData)
 	of
       true ->
 	  case fxml:get_attr_s(<<"type">>, Attrs) of
@@ -4391,6 +4390,7 @@ set_opts([{Opt, Val} | Opts], StateData) ->
 		StateData#state{affiliations = (?DICT):from_list(Val)};
 	    subject -> StateData#state{subject = Val};
 	    subject_author -> StateData#state{subject_author = Val};
+        forbidden_words -> StateData#state{forbidden_words = Val};
 	    _ -> StateData
 	  end,
     set_opts(Opts, NSD).
@@ -5611,8 +5611,7 @@ process_iq_forbidden_words(From,set,Lang,SubEl,StateData)->
 
 set_muc_forbidden_words(SubEl) ->
 	#xmlel{attrs = Attrs} = SubEl,
-	?DEBUG("set_muc_forbidden_words attrs ~p ~n",[Attrs]),
-	case catch fxml:get_attr_s(<<"set_forbidden">>, Attrs) of
+	case catch fxml:get_attr_s(<<"forbidden_words">>, Attrs) of
 	<<"true">> ->
 			<<"true">>;
 	_ ->

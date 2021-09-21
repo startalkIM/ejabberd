@@ -10,7 +10,7 @@
 -export([encode_pb_set_friend_opt/3,encode_pb_get_user_friends/3,encode_pb_del_user_friend/3]).
 -export([encode_pb_time_http_key/3,encode_pb_get_friend_opt/3,encode_pb_destroy_muc/3]).
 -export([encode_pb_ping/3,encode_pb_get_mask_user/3,encode_pb_set_mask_user/3,encode_pb_cancel_mask_user/3]).
--export([encode_pb_handle_user_subscribe/3]).
+-export([encode_pb_handle_user_subscribe/3,encode_pb_forbidden_words/3]).
 -export([encode_pb_handle_user_subscribe_v2/3]).
 -export([encode_pb_get_virtual_user/3,encode_pb_get_vuser_role/3,encode_pb_start_session/3,encode_pb_end_session/3]).
 -export([struct_pb_iq_msg/10,encode_pb_mac_push_notice_jid/3,encode_pb_mac_push_notice/3,encode_pb_cancel_mac_push_notice/3]).
@@ -32,6 +32,7 @@ encode_pb_iq_msg(Key,Val,Msg_ID,Header,Body,Headers,Bodys) ->
     			bodys = Bodys
 			},
     FPB_IQ = handle_pb_iq_key(Key,PB_IQ), 
+	?DEBUG("encode_pb_iq_msg ~p ~n",[PB_IQ]),
 	message_pb:encode_iqmessage(FPB_IQ).
 
 
@@ -540,6 +541,33 @@ encode_pb_cancel_mask_user(From,To,Packet) ->
     ID = qtalk_public:get_xml_attrs_id(Packet),
     struct_pb_iq_msg(From,To,'SignalTypeIQ',<<"result">>,<<"cancel_mask_user">>,ID,'undefined',Body,[],[]).
 
+
+encode_pb_forbidden_words(From,To,Packet) ->
+    ID = qtalk_public:get_xml_attrs_id(Packet),
+    Body =
+		case fxml:get_subtag(Packet,<<"query">>) of 
+		false ->
+			'undefined';
+		Query ->
+			Headers =
+				case catch fxml:get_subtag(Query,<<"forbidden_words">>) of
+				false ->
+					[{<<"result">>,<<"failed">>}];
+			 	ForbiddebWords when is_record(ForbiddebWords,xmlel)->
+					case catch fxml:get_attr_s(<<"forbidden">>,ForbiddebWords#xmlel.attrs) of
+					<<>> ->
+						[{<<"result">>,<<"false">>}];
+					V when is_binary(V) ->
+					 	[{<<"result">>,V}];
+					_ ->
+						[{<<"result">>,<<"false">>}]
+					end;
+				_ ->
+					[{<<"result">>,<<"failed">>}]
+				end,
+			ejabberd_xml2pb_public:encode_messagebody(Headers,<<"forbidden_words">>)
+		end,
+    struct_pb_iq_msg(From,To,'SignalTypeIQ',<<"result">>,<<"forbidden_words">>,ID,'undefined',Body,[],[]).
 
 encode_pb_handle_user_subscribe(From,To,Packet) ->
     Body = 
