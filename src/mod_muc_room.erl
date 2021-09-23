@@ -5626,7 +5626,7 @@ set_new_muc_forbidden_words(BoolForbiddenWords,StateData) ->
 			StateData;
 		_ ->
 			send_forbidden_words_notice(BoolForbiddenWords,StateData),
-			NewState = StateData#state{forbidden_words = true},
+			NewState = StateData#state{config = StateData#state.config#config{forbidden_words = true}, forbidden_words = true},
 			catch mod_muc:store_room(NewState#state.server_host,NewState#state.host, NewState#state.room,make_opts(NewState)),
 			NewState
 		end;
@@ -5634,7 +5634,7 @@ set_new_muc_forbidden_words(BoolForbiddenWords,StateData) ->
 		case StateData#state.forbidden_words of
 		true ->
 			send_forbidden_words_notice(BoolForbiddenWords,StateData),
-			NewState = StateData#state{forbidden_words = false},
+			NewState = StateData#state{config = StateData#state.config#config{forbidden_words = false}, forbidden_words = false},
 			catch mod_muc:store_room(NewState#state.server_host,NewState#state.host, NewState#state.room,make_opts(NewState)),
 			NewState;
 		_ ->
